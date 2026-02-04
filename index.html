@@ -15,26 +15,21 @@
 
   <style>
     :root{
-      /* ===== Override tokens.css here ===== */
-
       --ink:#0b1220;
       --ink2:#070c16;
 
-      /* skin-tone paper: brighter, less muddy */
+      /* skin-tone paper: brighter + “skin glow” */
       --paper:#fffaf2;
       --paper2:#f7efdf;
       --paper3:#ffffff;
 
-      /* Gold: "Dior girls" — bright highlight + warm core + deep edge (not orange, not bronze) */
-      --goldHi:#f7e6b6;   /* highlight */
-      --goldMid:#d6b36b;  /* core */
-      --goldDeep:#b88a3d; /* edge */
+      /* Gold: bright highlight + warm core + deep edge (not orange, not heavy bronze) */
+      --goldHi:#f7e6b6;
+      --goldMid:#d6b36b;
+      --goldDeep:#b88aa3d;
 
-      /* SINGLE SOURCE OF TRUTH: gild + button use the same gradient */
+      /* SINGLE SOURCE OF TRUTH: gild + button use identical gradient */
       --goldGrad: linear-gradient(135deg, var(--goldHi) 0%, var(--goldMid) 48%, var(--goldDeep) 100%);
-
-      --border: rgba(16, 24, 40, .10);
-      --border2: rgba(16, 24, 40, .14);
 
       --text: #0b1220;
       --muted: rgba(11, 18, 32, .70);
@@ -50,9 +45,9 @@
       --maxw: 1160px;
 
       /* Shimmer control (JS updates these) */
-      --mx: 50%;
-      --my: 50%;
-      --shine: .75;
+      --mx: 52%;
+      --my: 22%;
+      --shine: .70; /* base intensity */
     }
 
     *{ box-sizing:border-box; }
@@ -62,11 +57,11 @@
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
 
-      /* Premium paper + subtle couture glow */
+      /* Premium paper + couture glow */
       background:
-        radial-gradient(900px 520px at 18% 18%, rgba(214,179,107,.16), transparent 60%),
-        radial-gradient(820px 520px at 78% 42%, rgba(184,138,61,.10), transparent 62%),
-        radial-gradient(1200px 760px at 50% 0%, rgba(255,255,255,.88), transparent 58%),
+        radial-gradient(980px 540px at 18% 18%, rgba(214,179,107,.16), transparent 60%),
+        radial-gradient(860px 540px at 78% 42%, rgba(184,138,61,.10), transparent 62%),
+        radial-gradient(1400px 900px at 50% 0%, rgba(255,255,255,.92), transparent 60%),
         linear-gradient(180deg, var(--paper) 0%, var(--paper2) 46%, #eef2f7 100%);
 
       display:flex;
@@ -78,20 +73,38 @@
 
     /* Main stage card */
     .stage{
-      border: 1px solid rgba(255,255,255,.60);
+      border: 1px solid rgba(255,255,255,.62);
       border-radius: var(--r-xl);
       overflow:hidden;
       box-shadow: var(--shadowSoft);
+      position: relative;
 
       background:
         radial-gradient(1200px 520px at 30% 10%, rgba(255,255,255,.92), rgba(255,255,255,.58) 55%, rgba(255,255,255,.16) 100%),
-        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.64));
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.66));
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      position: relative;
     }
 
-    /* Top (paper) / Bottom (ink) split */
+    /* Dior-like paper grain overlay (subtle) */
+    .stage::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.10; /* grain strength */
+      mix-blend-mode: multiply;
+      background:
+        /* micro speckle */
+        radial-gradient(circle at 10% 20%, rgba(0,0,0,.35) 0 1px, transparent 2px) 0 0/180px 180px,
+        radial-gradient(circle at 80% 40%, rgba(0,0,0,.28) 0 1px, transparent 2px) 0 0/220px 220px,
+        radial-gradient(circle at 30% 75%, rgba(0,0,0,.22) 0 1px, transparent 2px) 0 0/260px 260px,
+        /* soft fiber noise */
+        repeating-linear-gradient(0deg, rgba(0,0,0,.035) 0 1px, transparent 1px 4px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,.028) 0 1px, transparent 1px 5px);
+    }
+
+    /* Top / Bottom split */
     .top{
       padding: 42px 46px 28px;
       position:relative;
@@ -114,7 +127,7 @@
       padding:12px 18px;
       border-radius:999px;
       border:1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.74);
+      background: rgba(255,255,255,.76);
       box-shadow: 0 10px 28px rgba(11,18,32,.08);
       color: rgba(11,18,32,.72);
       font-size:14px;
@@ -141,52 +154,69 @@
       text-rendering: geometricPrecision;
     }
 
-    /* Wordmark (deboss / engraved feel) */
+    /* Wordmark container */
     .wordmark{
       position: relative;
-      display: inline-block;
+      display:inline-flex;
+      gap: 14px;
+      align-items: baseline;
       isolation: isolate;
     }
+
+    /* (1) Brand = deboss/press (engraved into paper) */
     .wordmark .brand{
-      color: var(--ink);
-      /* engraved illusion: highlight + inner shade */
+      color: #101827;
+      position: relative;
+      /* pressed look: top highlight + inner shadow */
       text-shadow:
-        0 1px 0 rgba(255,255,255,.85),
-        0 -1px 0 rgba(0,0,0,.06),
-        0 12px 30px rgba(11,18,32,.10);
+        0 1px 0 rgba(255,255,255,.92),
+        0 -1px 0 rgba(0,0,0,.10),
+        0 14px 32px rgba(11,18,32,.08);
+      -webkit-text-stroke: .45px rgba(10,14,26,.18);
+    }
+    /* extra press micro-contrast */
+    .wordmark .brand::after{
+      content:"";
+      position:absolute;
+      inset:-10px -12px;
+      pointer-events:none;
+      background:
+        radial-gradient(240px 140px at 30% 20%,
+          rgba(255,255,255,.55),
+          rgba(255,255,255,0) 70%);
+      mix-blend-mode: soft-light;
+      opacity:.35;
     }
 
-    /* Gild: same gold gradient as button + shimmer overlay */
+    /* (2) Gild = embossed/raised metal */
     .wordmark .gild{
+      position: relative;
+      display:inline-block;
       background: var(--goldGrad);
       -webkit-background-clip:text;
       background-clip:text;
       color: transparent;
 
-      /* keeps thin strokes readable */
+      /* raised edges: highlight + shadow */
       text-shadow:
-        0 1px 0 rgba(255,255,255,.75),
-        0 10px 26px rgba(11,18,32,.10);
-
-      /* subtle micro-stroke for readability (safe, not “outlined”) */
-      -webkit-text-stroke: .35px rgba(120,90,30,.22);
-      position: relative;
+        0 1px 0 rgba(255,255,255,.85),
+        0 10px 24px rgba(11,18,32,.14);
+      -webkit-text-stroke: .40px rgba(120,90,30,.22);
     }
 
-    /* Shimmer layer for Gild (JS changes --mx --my) */
-    .wordmark .gild::after{
-      content:"";
+    /* Shimmer DOM layer for Gild (guaranteed to work) */
+    .gild .shimmer{
       position:absolute;
-      inset:-12px -10px;
+      inset:-18px -18px;
       pointer-events:none;
       background:
-        radial-gradient(220px 180px at var(--mx) var(--my),
-          rgba(255,255,255, calc(var(--shine) * .55)) 0%,
-          rgba(255,255,255, calc(var(--shine) * .20)) 28%,
+        radial-gradient(260px 190px at var(--mx) var(--my),
+          rgba(255,255,255, calc(var(--shine) * .70)) 0%,
+          rgba(255,255,255, calc(var(--shine) * .26)) 28%,
           rgba(255,255,255, 0) 62%);
       mix-blend-mode: soft-light;
       filter: blur(2px);
-      opacity: .85;
+      opacity:.90;
     }
 
     .headline{
@@ -223,7 +253,7 @@
     .feature{
       border: 1px solid rgba(11,18,32,.10);
       border-radius: 20px;
-      background: rgba(255,255,255,.80);
+      background: rgba(255,255,255,.82);
       box-shadow: var(--shadowCard);
       padding: 18px 18px 16px;
       position: relative;
@@ -244,13 +274,13 @@
       color: rgba(11,18,32,.48);
     }
 
-    /* Luxury line icons (thin, meaningful) */
+    /* Thin luxury line icons */
     .icon{
       width: 34px;
       height: 34px;
       border-radius: 12px;
       border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.78);
+      background: rgba(255,255,255,.80);
       display:grid;
       place-items:center;
       box-shadow: 0 10px 22px rgba(11,18,32,.06);
@@ -258,8 +288,8 @@
     .icon svg{
       width: 18px;
       height: 18px;
-      stroke: rgba(11,18,32,.74);
-      stroke-width: 1.6;
+      stroke: rgba(11,18,32,.72);
+      stroke-width: 1.55;
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -278,7 +308,7 @@
       line-height: 1.55;
     }
 
-    /* Meaningful chips */
+    /* Chips */
     .chips{
       display:flex;
       flex-wrap:wrap;
@@ -290,7 +320,7 @@
       padding: 7px 10px;
       border-radius: 999px;
       border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.74);
+      background: rgba(255,255,255,.76);
       color: rgba(11,18,32,.70);
     }
 
@@ -316,7 +346,7 @@
     }
     .input::placeholder{ color: rgba(255,255,255,.42); }
 
-    /* Button: same gold gradient + shimmer overlay */
+    /* (3) Button gold exactly matches Gild */
     .btn{
       height: 54px;
       border: 0;
@@ -333,20 +363,22 @@
       overflow: hidden;
       transform: translateZ(0);
     }
-    .btn::after{
-      content:"";
+
+    /* Shimmer DOM layer for Button (guaranteed to work) */
+    .btn .shimmer{
       position:absolute;
-      inset:-40px -60px;
+      inset:-60px -80px;
       pointer-events:none;
       background:
-        radial-gradient(260px 180px at var(--mx) var(--my),
-          rgba(255,255,255, calc(var(--shine) * .55)) 0%,
-          rgba(255,255,255, calc(var(--shine) * .22)) 28%,
+        radial-gradient(300px 210px at var(--mx) var(--my),
+          rgba(255,255,255, calc(var(--shine) * .68)) 0%,
+          rgba(255,255,255, calc(var(--shine) * .24)) 28%,
           rgba(255,255,255, 0) 62%);
       mix-blend-mode: soft-light;
       filter: blur(2px);
-      opacity: .90;
+      opacity:.92;
     }
+
     .btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
     .btn:active{ transform: translateY(0px); }
 
@@ -381,7 +413,7 @@
     }
     .links a:hover{ color: rgba(255,255,255,.86); }
 
-    /* subtle bottom shimmer fog (very luxury, not flashy) */
+    /* subtle bottom fog */
     .bottom::before{
       content:"";
       position:absolute;
@@ -395,17 +427,13 @@
       z-index:1;
     }
 
-    /* Responsive */
     @media (max-width: 980px){
       .top{ padding: 34px 20px 22px; }
       .bottom{ padding: 20px 20px 24px; }
-
       .hero{ grid-template-columns: 1fr; }
       .features{ grid-template-columns: 1fr; }
-
       .ctaRow{ grid-template-columns: 1fr; }
       .btn{ width:100%; }
-
       .footerRow{ flex-direction:column; align-items:flex-start; }
     }
   </style>
@@ -413,7 +441,7 @@
 
 <body>
   <div class="wrap">
-    <section class="stage">
+    <section class="stage" id="stage">
       <div class="top">
         <div class="pill">
           Invite-only early access • <b>Brand</b> → <b>Launch</b> → <b>Growth</b>
@@ -422,7 +450,8 @@
         <div class="hero">
           <div>
             <h1 class="wordmark">
-              <span class="brand">Brand</span>&nbsp;<span class="gild">Gild</span>
+              <span class="brand">Brand</span>
+              <span class="gild">Gild<span class="shimmer" aria-hidden="true"></span></span>
             </h1>
 
             <p class="headline">The definitive Brand-to-Launch OS. <br/>Elevate your vision.</p>
@@ -446,13 +475,10 @@
             <div class="featureHead">
               <div class="idx">Module 01</div>
               <div class="icon" aria-hidden="true" title="Rules & sliders">
-                <!-- sliders icon -->
                 <svg viewBox="0 0 24 24">
                   <path d="M4 6h10"></path><path d="M18 6h2"></path>
-                  <path d="M14 6v0"></path>
                   <path d="M4 12h6"></path><path d="M14 12h6"></path>
-                  <path d="M10 12v0"></path>
-                  <path d="M4 18h14"></path><path d="M20 18h0"></path>
+                  <path d="M4 18h14"></path>
                   <circle cx="14" cy="6" r="2"></circle>
                   <circle cx="10" cy="12" r="2"></circle>
                   <circle cx="18" cy="18" r="2"></circle>
@@ -472,7 +498,6 @@
             <div class="featureHead">
               <div class="idx">Module 02</div>
               <div class="icon" aria-hidden="true" title="Layout blocks">
-                <!-- layout icon -->
                 <svg viewBox="0 0 24 24">
                   <rect x="4" y="5" width="16" height="14" rx="2"></rect>
                   <path d="M4 10h16"></path>
@@ -493,7 +518,6 @@
             <div class="featureHead">
               <div class="idx">Module 03</div>
               <div class="icon" aria-hidden="true" title="Always-on loop">
-                <!-- refresh/loop icon -->
                 <svg viewBox="0 0 24 24">
                   <path d="M20 12a8 8 0 1 1-2.3-5.7"></path>
                   <path d="M20 4v6h-6"></path>
@@ -514,7 +538,10 @@
       <div class="bottom">
         <form id="earlyAccessForm" class="ctaRow">
           <input id="email" class="input" type="email" required placeholder="Enter your email" />
-          <button type="submit" class="btn" id="inviteBtn">Request an Invite</button>
+          <button type="submit" class="btn" id="inviteBtn">
+            Request an Invite
+            <span class="shimmer" aria-hidden="true"></span>
+          </button>
         </form>
 
         <div class="note">
@@ -535,36 +562,41 @@
   </div>
 
   <script>
-    // Dior-like shimmer: subtle, premium, tied to pointer position
+    // (4) Dior-like shimmer: subtle + always works (updates CSS vars used by .shimmer layers)
     (function(){
       const root = document.documentElement;
-      const stage = document.querySelector('.stage');
-      const onMove = (e) => {
+      const stage = document.getElementById('stage');
+
+      function setVars(clientX, clientY){
         const r = stage.getBoundingClientRect();
-        const x = ((e.clientX - r.left) / r.width) * 100;
-        const y = ((e.clientY - r.top) / r.height) * 100;
-        root.style.setProperty('--mx', x.toFixed(2) + '%');
-        root.style.setProperty('--my', y.toFixed(2) + '%');
+        const x = ((clientX - r.left) / r.width) * 100;
+        const y = ((clientY - r.top) / r.height) * 100;
 
-        // reduce shimmer when far from center (keeps it luxe, not flashy)
-        const dx = Math.abs(x - 50) / 50;
-        const dy = Math.abs(y - 45) / 55;
-        const falloff = Math.min(1, (dx + dy) / 1.6);
-        const shine = 0.85 - falloff * 0.35; // 0.50~0.85
+        // clamp
+        const cx = Math.max(0, Math.min(100, x));
+        const cy = Math.max(0, Math.min(100, y));
+
+        root.style.setProperty('--mx', cx.toFixed(2) + '%');
+        root.style.setProperty('--my', cy.toFixed(2) + '%');
+
+        // keep luxe: strongest near hero, softer as it moves away
+        const dx = Math.abs(cx - 52) / 52;
+        const dy = Math.abs(cy - 20) / 60;
+        const falloff = Math.min(1, (dx + dy) / 1.55);
+        const shine = 0.78 - falloff * 0.34; // ~0.44 to 0.78
         root.style.setProperty('--shine', shine.toFixed(2));
-      };
+      }
 
-      // pointer + touch
-      window.addEventListener('pointermove', onMove, {passive:true});
+      // pointer
+      window.addEventListener('pointermove', (e)=> setVars(e.clientX, e.clientY), {passive:true});
+      // touch
       window.addEventListener('touchmove', (t)=>{
         if(!t.touches || !t.touches[0]) return;
-        onMove({clientX:t.touches[0].clientX, clientY:t.touches[0].clientY});
+        setVars(t.touches[0].clientX, t.touches[0].clientY);
       }, {passive:true});
 
-      // set a tasteful default
-      root.style.setProperty('--mx','52%');
-      root.style.setProperty('--my','20%');
-      root.style.setProperty('--shine','0.74');
+      // initial tasteful position
+      setVars(window.innerWidth * 0.55, window.innerHeight * 0.22);
     })();
 
     // No backend needed: opens user's email client with prefilled message
