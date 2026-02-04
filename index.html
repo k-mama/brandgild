@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BrandGild — The Definitive Brand-to-Launch OS</title>
 
-  <!-- Design tokens (optional in your repo) -->
+  <!-- Design tokens (your repo) -->
   <link rel="stylesheet" href="/packages/ui/tokens.css">
 
   <!-- Fonts: Dior-like display + Apple-like UI -->
@@ -15,27 +15,27 @@
 
   <style>
     :root{
-      /* ===== Core ===== */
+      /* ===== Override tokens.css here (so you don't have to touch tokens.css) ===== */
       --ink:#0b1220;
       --ink2:#070c16;
 
-      /* “skin-glow” paper */
-      --paper0:#fffaf2;
-      --paper:#fbf3e6;
-      --paper2:#f7eddc;
-      --paper3:#fffdf9;
+      /* Skin-glow paper (lighter, more "skin sheen") */
+      --paper:#fffaf1;
+      --paper2:#f7efdf;
+      --paper3:#fffefb;
 
-      /* Dior-hardware gold (not orange, not muddy) */
-      --goldHi:#fae9c7;      /* highlight */
-      --goldMid:#e2c07a;     /* <- "d" tone target (also button solid) */
-      --goldLo:#bf8633;      /* edge depth */
+      /* GOLD: user-specified */
+      --gildFill:#e1c773;          /* Gild fill */
+      --gildStroke:#7f6921;        /* chosen from your options (sleek, not too orange) */
 
-      /* Gild text gradient can stay (hardware feel) */
-      --goldTextGrad: linear-gradient(135deg, var(--goldHi) 0%, var(--goldMid) 54%, var(--goldLo) 100%);
+      /* Button gold gradient (user-specified) */
+      --btnGoldL:#e5cf87;
+      --btnGoldR:#e1c773;
 
-      /* BUTTON: MUST BE SOLID, match "d" */
-      --goldSolid: var(--goldMid);
+      /* Shimmer highlight color (user-specified) */
+      --shine:#fef9eb;
 
+      /* Shared */
       --border: rgba(16, 24, 40, .10);
       --border2: rgba(16, 24, 40, .14);
 
@@ -51,79 +51,87 @@
       --r-md: 18px;
 
       --maxw: 1160px;
-
-      /* Mouse vars (per element) */
-      --mx: 50%;
-      --my: 50%;
     }
 
     *{ box-sizing:border-box; }
     html, body { height:100%; }
+
     body{
       margin:0;
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
 
-      /* Skin-glow paper + couture light */
+      /* Premium paper + subtle couture glow (skin sheen) */
       background:
-        radial-gradient(980px 540px at 18% 18%, rgba(250,233,199,.42), transparent 62%),
-        radial-gradient(860px 560px at 78% 42%, rgba(226,192,122,.18), transparent 64%),
-        radial-gradient(1200px 760px at 50% 0%, rgba(255,255,255,.92), transparent 60%),
-        linear-gradient(180deg, var(--paper0) 0%, var(--paper) 30%, var(--paper2) 62%, #eef2f7 100%);
+        radial-gradient(950px 540px at 18% 18%, rgba(225,199,115,.22), transparent 60%),
+        radial-gradient(900px 560px at 76% 36%, rgba(225,199,115,.14), transparent 62%),
+        radial-gradient(1200px 760px at 50% 0%, rgba(255,255,255,.86), transparent 58%),
+        linear-gradient(180deg, var(--paper) 0%, var(--paper2) 46%, #eef2f7 100%);
 
       display:flex;
       justify-content:center;
       padding:64px 18px;
-      position:relative;
+      position: relative;
       overflow-x:hidden;
     }
 
-    /* Subtle paper grain / micro speckle (no images) */
+    /* Dior-like micro grain (paper texture) */
     body::before{
       content:"";
-      position:fixed;
-      inset:0;
+      position: fixed;
+      inset: 0;
       pointer-events:none;
-      opacity:.30;
-      mix-blend-mode:multiply;
-      background:
-        radial-gradient(1px 1px at 12% 20%, rgba(0,0,0,.10) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 22% 72%, rgba(0,0,0,.08) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 44% 38%, rgba(0,0,0,.06) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 68% 58%, rgba(0,0,0,.07) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 83% 31%, rgba(0,0,0,.08) 0 1px, transparent 2px),
-        radial-gradient(1px 1px at 91% 77%, rgba(0,0,0,.06) 0 1px, transparent 2px);
-      background-size: 320px 320px;
-      filter: blur(.15px);
+      opacity: .10;
+      mix-blend-mode: multiply;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .55 0'/></filter><rect width='220' height='220' filter='url(%23n)' opacity='.55'/></svg>");
+      background-size: 220px 220px;
     }
 
     .wrap{ width:min(var(--maxw), 100%); }
 
     /* Main stage card */
     .stage{
-      border: 1px solid rgba(255,255,255,.62);
+      border: 1px solid rgba(255,255,255,.58);
       border-radius: var(--r-xl);
       overflow:hidden;
       box-shadow: var(--shadowSoft);
 
       background:
-        radial-gradient(1200px 520px at 30% 10%, rgba(255,255,255,.94), rgba(255,255,255,.62) 56%, rgba(255,255,255,.18) 100%),
-        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.64));
+        radial-gradient(1200px 520px at 30% 10%, rgba(255,255,255,.92), rgba(255,255,255,.58) 55%, rgba(255,255,255,.18) 100%),
+        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.66));
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    /* Extra subtle grain inside stage only (adds "skin glow" realism) */
+    .stage::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.06;
+      mix-blend-mode:multiply;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><filter id='n2'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .42 0'/></filter><rect width='180' height='180' filter='url(%23n2)' opacity='.6'/></svg>");
+      background-size: 180px 180px;
     }
 
     /* Top (paper) / Bottom (ink) split */
     .top{
       padding: 42px 46px 28px;
       position:relative;
+      z-index: 1;
     }
     .bottom{
       padding: 22px 46px 30px;
       background:
-        radial-gradient(900px 420px at 50% -10%, rgba(226,192,122,.12), transparent 60%),
+        radial-gradient(900px 420px at 50% -10%, rgba(225,199,115,.12), transparent 60%),
         linear-gradient(180deg, #0c1424 0%, #070d18 100%);
       color: rgba(255,255,255,.86);
+      position:relative;
+      z-index: 1;
     }
 
     /* Pill */
@@ -134,7 +142,7 @@
       padding:12px 18px;
       border-radius:999px;
       border:1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.76);
+      background: rgba(255,255,255,.74);
       box-shadow: 0 10px 28px rgba(11,18,32,.08);
       color: rgba(11,18,32,.72);
       font-size:14px;
@@ -142,7 +150,7 @@
     }
     .pill b{ color: rgba(11,18,32,.92); font-weight:700; }
 
-    /* Hero */
+    /* Hero title */
     .hero{
       margin-top: 26px;
       display:grid;
@@ -154,132 +162,144 @@
     h1{
       margin: 0 0 10px;
       font-family: "Bodoni Moda", serif;
-      font-weight: 650; /* keep legible */
+      font-weight: 650;
       font-size: clamp(54px, 7vw, 88px);
       letter-spacing: -1.2px;
       line-height: .95;
       text-rendering: geometricPrecision;
+      display: inline-block;
     }
 
-    /* Wordmark: keep Brand + Gild close */
+    /* Bring Brand + Gild closer (no "breakup") */
     .wordmark{
       display:inline-flex;
-      align-items:baseline;
-      gap: 8px; /* close (no breakup) */
-      user-select:none;
+      align-items: baseline;
+      gap: 10px; /* tighter */
+      white-space: nowrap;
     }
 
-    /* BRAND: embossed press (text-only, not cloud) */
+    /* Brand = deboss / pressed (emboss-press / 음각 느낌) */
     .wordmark .brand{
-      position:relative;
-      color: rgba(6,10,20,.86);
-      -webkit-text-stroke: .35px rgba(0,0,0,.10);
+      color: rgba(11,18,32,.95);
+      position: relative;
+      /* pressed illusion: light highlight + inner dark */
       text-shadow:
-        0 1px 0 rgba(255,255,255,.88),     /* top highlight */
-        0 -1px 0 rgba(255,255,255,.20),
-        0 10px 18px rgba(11,18,32,.08);   /* depth */
+        0 1px 0 rgba(255,255,255,.85),
+        0 -1px 0 rgba(0,0,0,.06),
+        0 10px 22px rgba(11,18,32,.06);
       filter: saturate(1.02);
     }
-
-    /* Optional: subtle inner “press” feel */
+    /* optional subtle inset edge */
     .wordmark .brand::after{
-      content:"";
+      content: attr(data-text);
       position:absolute;
-      inset:-10px -10px;
+      inset:0;
+      color: transparent;
+      -webkit-text-stroke: 0.6px rgba(255,255,255,.55);
+      text-shadow: none;
       pointer-events:none;
-      opacity:.18;
-      background:
-        radial-gradient(220px 140px at var(--mx) var(--my),
-          rgba(255,255,255,.26) 0%,
-          rgba(255,255,255,0) 60%);
       mix-blend-mode: soft-light;
-      -webkit-mask: linear-gradient(#000,#000);
-      mask: linear-gradient(#000,#000);
     }
 
-    /* GILD: Dior hardware gold + brush grain + shimmer INSIDE TEXT ONLY */
+    /* Gild = raised metal (양각) + micro brushed texture INSIDE text only */
     .wordmark .gild{
-      position:relative;
+      --mx: 50%;
+      --my: 35%;
+      position: relative;
       display:inline-block;
-      background: var(--goldTextGrad);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
 
-      /* crisp edge like hardware */
-      -webkit-text-stroke: .7px rgba(120,86,22,.34);
+      /* base fill */
+      color: var(--gildFill);
 
-      /* lift (raised) */
+      /* crisp luxury outline */
+      -webkit-text-stroke: 1px var(--gildStroke);
+
+      /* subtle lifted bevel */
       text-shadow:
-        0 1px 0 rgba(255,255,255,.82),
-        0 12px 22px rgba(11,18,32,.10);
+        0 1px 0 rgba(255,255,255,.70),
+        0 10px 22px rgba(11,18,32,.10);
 
-      isolation:isolate;
+      /* make it feel "hardware" */
+      filter: saturate(1.06) contrast(1.06);
     }
 
-    /* Micro metal brush grain (text only) */
-    .wordmark .gild::before{
-      content:"";
-      position:absolute;
-      inset:-10px -14px;
-      pointer-events:none;
-      opacity:.20;               /* keep luxe (low) */
-      mix-blend-mode: overlay;
-
-      background:
-        repeating-linear-gradient(
-          112deg,
-          rgba(255,255,255,.20) 0px,
-          rgba(255,255,255,.20) 1px,
+    /* Brushed-metal grain INSIDE text only via background-clip */
+    .wordmark .gild.brushed{
+      background-image:
+        /* soft metal shading (very subtle) */
+        linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0) 38%, rgba(0,0,0,.08) 100%),
+        /* micro brushed lines */
+        repeating-linear-gradient(115deg,
+          rgba(255,255,255,.22) 0px,
+          rgba(255,255,255,.22) 1px,
           rgba(255,255,255,0) 3px,
-          rgba(255,255,255,0) 8px
-        ),
-        repeating-linear-gradient(
-          22deg,
-          rgba(0,0,0,.06) 0px,
-          rgba(0,0,0,.06) 1px,
-          rgba(0,0,0,0) 4px,
-          rgba(0,0,0,0) 10px
-        );
+          rgba(255,255,255,0) 7px),
+        /* ultra subtle noise */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .35 0'/></filter><rect width='240' height='240' filter='url(%23m)' opacity='.45'/></svg>");
+      background-size: 100% 100%, auto, 240px 240px;
+      background-blend-mode: overlay, overlay, soft-light;
 
-      /* clip to text only */
       -webkit-background-clip: text;
       background-clip: text;
-      color: transparent;
 
-      filter: blur(.12px);
-      z-index: 1;
+      /* keep the base fill color driving the metal */
+      color: transparent;
+    }
+    /* Restore the stroke when color is transparent */
+    .wordmark .gild.brushed{
+      -webkit-text-stroke: 1px var(--gildStroke);
     }
 
-    /* Shimmer highlight (text only, no cloud behind) */
-    .wordmark .gild::after{
+    /* Shimmer highlight INSIDE text only (mouse-follow) */
+    .shimmerText{
+      --mx: 50%;
+      --my: 35%;
+    }
+    .shimmerText::before{
       content:"";
       position:absolute;
-      inset:-12px -16px;
+      inset: -6px; /* tight so it doesn't look like a cloud */
       pointer-events:none;
-      z-index: 2;
+      opacity: .0;
+      transition: opacity .18s ease;
 
-      /* Champagne-white to gold midpoint (between white and gold) */
       background:
-        radial-gradient(240px 170px at var(--mx) var(--my),
-          rgba(255,245,230,.65) 0%,
-          rgba(255,232,190,.40) 22%,
-          rgba(255,232,190,0) 58%),
-        linear-gradient(115deg,
-          rgba(255,255,255,0) 0%,
-          rgba(255,245,225,.16) 34%,
-          rgba(255,232,180,.62) 50%,
-          rgba(255,245,225,.16) 66%,
-          rgba(255,255,255,0) 100%);
-
+        radial-gradient(
+          160px 120px at var(--mx) var(--my),
+          rgba(254,249,235,.85),
+          rgba(254,249,235,.22) 42%,
+          rgba(254,249,235,0) 72%
+        );
       mix-blend-mode: screen;
-      opacity:.55;
-      filter: blur(.25px);
 
-      /* clip to text only */
+      /* clip to text (fill only) */
+      -webkit-mask-image: linear-gradient(#000, #000);
+      mask-image: linear-gradient(#000, #000);
+    }
+    /* clip shimmer to glyphs */
+    .shimmerText.shimmerClip::before{
       -webkit-background-clip: text;
       background-clip: text;
-      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* For brushed text we already use background-clip: text, so we overlay shimmer with masking */
+    .wordmark .gild.shimmerText::before{
+      -webkit-mask-image: none;
+      mask-image: none;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    /* Show shimmer on hover / active move */
+    .shimmerOn::before{ opacity: .95; }
+
+    .kicker{
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 62ch;
     }
 
     .headline{
@@ -291,14 +311,6 @@
       line-height: 1.25;
     }
 
-    .kicker{
-      margin: 0 0 18px;
-      font-size: 18px;
-      line-height: 1.55;
-      color: var(--muted);
-      max-width: 62ch;
-    }
-
     .lede{
       margin: 0;
       color: var(--muted);
@@ -306,7 +318,7 @@
       line-height: 1.7;
     }
 
-    /* Feature cards shelf */
+    /* Feature cards */
     .features{
       margin-top: 28px;
       display:grid;
@@ -316,58 +328,57 @@
     .feature{
       border: 1px solid rgba(11,18,32,.10);
       border-radius: 20px;
-      background: rgba(255,255,255,.82);
+      background: rgba(255,255,255,.80);
       box-shadow: var(--shadowCard);
       padding: 18px 18px 16px;
       position: relative;
     }
 
-    .featureTop{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .idx{
+    .feature .idx{
       font-size: 12px;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: rgba(11,18,32,.46);
+      color: rgba(11,18,32,.48);
+      margin-bottom: 10px;
     }
-
-    /* Thin-line luxury icon (not childish) */
-    .ico{
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.72);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .ico svg{
-      width:18px; height:18px;
-      stroke: rgba(11,18,32,.72);
-      stroke-width: 1.6;
-      fill: none;
-    }
-
-    .t{
+    .feature .t{
       margin: 0 0 6px;
       font-size: 16px;
       font-weight: 700;
       color: rgba(11,18,32,.92);
     }
-    .d{
+    .feature .d{
       margin: 0 0 12px;
       font-size: 14px;
       color: var(--muted2);
       line-height: 1.55;
     }
 
-    /* Chips */
+    /* Luxury thin-line icons (not childish) */
+    .iconBox{
+      position:absolute;
+      top: 16px;
+      right: 16px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(11,18,32,.10);
+      background: rgba(255,255,255,.70);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 10px 18px rgba(11,18,32,.06);
+    }
+    .iconBox svg{
+      width: 18px;
+      height: 18px;
+      stroke: rgba(11,18,32,.72);
+      stroke-width: 1.4;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Meaningful chips */
     .chips{
       display:flex;
       flex-wrap:wrap;
@@ -379,11 +390,11 @@
       padding: 7px 10px;
       border-radius: 999px;
       border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.74);
+      background: rgba(255,255,255,.72);
       color: rgba(11,18,32,.70);
     }
 
-    /* Bottom CTA area */
+    /* Bottom CTA */
     .ctaRow{
       display:grid;
       grid-template-columns: 1fr 260px;
@@ -403,8 +414,13 @@
     }
     .input::placeholder{ color: rgba(255,255,255,.42); }
 
-    /* BUTTON: SOLID GOLD (no gradient) + shimmer overlay */
+    /* Button: gradient matches the Gild family, with STRONG visible shimmer on mouse */
     .btn{
+      --mx: 50%;
+      --my: 35%;
+      position: relative;
+      overflow:hidden;
+
       height: 54px;
       border: 0;
       border-radius: 999px;
@@ -413,54 +429,50 @@
       font-size: 15px;
       letter-spacing: .2px;
 
-      position:relative;
-      overflow:hidden;
-
-      background: var(--goldSolid); /* <- 단일 컬러 */
+      background: linear-gradient(90deg, var(--btnGoldL), var(--btnGoldR));
       color: rgba(10, 12, 22, .92);
 
-      /* clean hardware edge */
       box-shadow:
-        0 16px 34px rgba(226,192,122,.22),
-        inset 0 1px 0 rgba(255,255,255,.42),
+        0 18px 40px rgba(225,199,115,.18),
+        inset 0 1px 0 rgba(255,255,255,.55),
         inset 0 -1px 0 rgba(0,0,0,.10);
+
+      transform: translateZ(0);
     }
 
-    /* Slight top satin (very subtle, no center haze) */
+    /* brighter, more obvious moving light (NOT white: uses #fef9eb) */
     .btn::before{
       content:"";
       position:absolute;
-      inset: 1px;
-      border-radius: 999px;
+      inset:-40px;
       pointer-events:none;
-      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0) 60%);
-      opacity:.35;
+      opacity: 0;
+      transition: opacity .18s ease;
+
+      background:
+        radial-gradient(
+          220px 160px at var(--mx) var(--my),
+          rgba(254,249,235,.92),
+          rgba(254,249,235,.34) 40%,
+          rgba(254,249,235,0) 72%
+        );
+      mix-blend-mode: screen;
+      filter: blur(.2px);
     }
 
-    /* Stronger shimmer band (visible) */
     .btn::after{
+      /* subtle top edge glint */
       content:"";
       position:absolute;
-      inset:-90px -140px;
+      inset:0;
       pointer-events:none;
-      mix-blend-mode: screen;
-      opacity: .95;
-      background:
-        radial-gradient(320px 220px at var(--mx) var(--my),
-          rgba(255,245,230,.85) 0%,
-          rgba(255,232,190,.46) 28%,
-          rgba(255,232,190,0) 62%),
-        linear-gradient(115deg,
-          rgba(255,255,255,0) 0%,
-          rgba(255,245,225,.20) 34%,
-          rgba(255,232,180,.70) 50%, /* between white & gold */
-          rgba(255,245,225,.20) 66%,
-          rgba(255,255,255,i0) 100%);
-      filter: blur(.22px);
-      transform: translate3d(0,0,0);
+      background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,0) 48%);
+      opacity:.55;
     }
 
-    .btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
+    .btn.shimmerOn::before{ opacity: 1; }
+
+    .btn:hover{ filter: brightness(1.02); transform: translateY(-1px); }
     .btn:active{ transform: translateY(0px); }
 
     .note{
@@ -516,8 +528,9 @@
 
         <div class="hero">
           <div>
-            <h1 class="wordmark" id="wordmark">
-              <span class="brand">Brand</span><span class="gild" id="gild">Gild</span>
+            <h1 class="wordmark">
+              <span class="brand" data-text="Brand">Brand</span>
+              <span class="gild brushed shimmerText" data-shimmer="gild">Gild</span>
             </h1>
 
             <p class="headline">The definitive Brand-to-Launch OS. <br/>Elevate your vision.</p>
@@ -538,14 +551,17 @@
 
         <div class="features">
           <article class="feature">
-            <div class="featureTop">
-              <div class="idx">Module 01</div>
-              <div class="ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 7h16M4 12h16M4 17h10"/>
-                </svg>
-              </div>
+            <div class="iconBox" aria-hidden="true">
+              <!-- sliders (thin-line, luxury) -->
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h10"></path><path d="M18 7h2"></path>
+                <path d="M4 17h2"></path><path d="M10 17h10"></path>
+                <path d="M14 7v0"></path>
+                <circle cx="16" cy="7" r="2"></circle>
+                <circle cx="8" cy="17" r="2"></circle>
+              </svg>
             </div>
+            <div class="idx">Module 01</div>
             <p class="t">Brand DNA</p>
             <p class="d">Lock tone, palette, rules, and positioning once — apply everywhere.</p>
             <div class="chips">
@@ -556,15 +572,16 @@
           </article>
 
           <article class="feature">
-            <div class="featureTop">
-              <div class="idx">Module 02</div>
-              <div class="ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M7 7h10v10H7z"/>
-                  <path d="M7 12h10"/>
-                </svg>
-              </div>
+            <div class="iconBox" aria-hidden="true">
+              <!-- grid (thin-line) -->
+              <svg viewBox="0 0 24 24">
+                <rect x="5" y="5" width="6" height="6" rx="1.2"></rect>
+                <rect x="13" y="5" width="6" height="6" rx="1.2"></rect>
+                <rect x="5" y="13" width="6" height="6" rx="1.2"></rect>
+                <rect x="13" y="13" width="6" height="6" rx="1.2"></rect>
+              </svg>
             </div>
+            <div class="idx">Module 02</div>
             <p class="t">Asset System</p>
             <p class="d">Reusable page sections, CTAs, and visuals — assemble, don’t rebuild.</p>
             <div class="chips">
@@ -575,15 +592,14 @@
           </article>
 
           <article class="feature">
-            <div class="featureTop">
-              <div class="idx">Module 03</div>
-              <div class="ico" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 6v6l4 2"/>
-                  <path d="M21 12a9 9 0 1 1-9-9"/>
-                </svg>
-              </div>
+            <div class="iconBox" aria-hidden="true">
+              <!-- refresh (thin-line) -->
+              <svg viewBox="0 0 24 24">
+                <path d="M20 12a8 8 0 1 1-2.35-5.65"></path>
+                <path d="M20 4v6h-6"></path>
+              </svg>
             </div>
+            <div class="idx">Module 03</div>
             <p class="t">Launch Loop</p>
             <p class="d">Always-on marketing briefs + updates so your presence stays alive.</p>
             <div class="chips">
@@ -598,7 +614,7 @@
       <div class="bottom">
         <form id="earlyAccessForm" class="ctaRow">
           <input id="email" class="input" type="email" required placeholder="Enter your email" />
-          <button type="submit" class="btn" id="ctaBtn">Request an Invite</button>
+          <button type="submit" class="btn" data-shimmer="btn">Request an Invite</button>
         </form>
 
         <div class="note">
@@ -619,7 +635,7 @@
   </div>
 
   <script>
-    // ===== Mailto (no backend) =====
+    // ====== mailto submit (no backend) ======
     document.getElementById('earlyAccessForm').addEventListener('submit', function(e){
       e.preventDefault();
       const email = document.getElementById('email').value.trim();
@@ -630,27 +646,48 @@
       window.location.href = `mailto:emmaestro123@gmail.com?subject=${subject}&body=${body}`;
     });
 
-    // ===== Mouse-driven shimmer (TEXT ONLY + BUTTON) =====
-    const gild = document.getElementById('gild');
-    const brand = document.querySelector('.wordmark .brand');
-    const btn = document.getElementById('ctaBtn');
+    // ====== Dior-like shimmer that follows the pointer (Gild + Button) ======
+    // - confined to text/button itself (no cloudy background)
+    // - stronger visibility on button
+    (function(){
+      const targets = Array.from(document.querySelectorAll('[data-shimmer]'));
+      if (!targets.length) return;
 
-    function setVars(el, clientX, clientY){
-      const r = el.getBoundingClientRect();
-      const x = ((clientX - r.left) / r.width) * 100;
-      const y = ((clientY - r.top) / r.height) * 100;
-      el.style.setProperty('--mx', `${Math.max(0, Math.min(100, x))}%`);
-      el.style.setProperty('--my', `${Math.max(0, Math.min(100, y))}%`);
-    }
+      let raf = null;
+      let last = null;
 
-    // Button shimmer should be clearly visible
-    btn.addEventListener('mousemove', (e) => setVars(btn, e.clientX, e.clientY));
-    btn.addEventListener('mouseenter', () => btn.style.filter = 'brightness(1.03)');
-    btn.addEventListener('mouseleave', () => btn.style.filter = '');
+      function setVars(el, clientX, clientY){
+        const r = el.getBoundingClientRect();
+        const x = ((clientX - r.left) / r.width) * 100;
+        const y = ((clientY - r.top) / r.height) * 100;
+        // clamp
+        const cx = Math.max(0, Math.min(100, x));
+        const cy = Math.max(0, Math.min(100, y));
+        el.style.setProperty('--mx', cx.toFixed(2) + '%');
+        el.style.setProperty('--my', cy.toFixed(2) + '%');
+      }
 
-    // Gild shimmer only inside text; brand has subtle press light (very low)
-    gild.addEventListener('mousemove', (e) => setVars(gild, e.clientX, e.clientY));
-    brand.addEventListener('mousemove', (e) => setVars(brand, e.clientX, e.clientY));
+      function onMove(e){
+        last = e;
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = null;
+          if (!last) return;
+          targets.forEach(el => setVars(el, last.clientX, last.clientY));
+          // show shimmer while moving
+          targets.forEach(el => el.classList.add('shimmerOn'));
+        });
+      }
+
+      function onLeave(){
+        targets.forEach(el => el.classList.remove('shimmerOn'));
+      }
+
+      window.addEventListener('pointermove', onMove, { passive: true });
+      window.addEventListener('pointerdown', onMove, { passive: true });
+      window.addEventListener('pointerleave', onLeave, { passive: true });
+      window.addEventListener('blur', onLeave);
+    })();
   </script>
 </body>
 </html>
