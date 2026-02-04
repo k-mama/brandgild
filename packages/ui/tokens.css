@@ -33,30 +33,4 @@
 
   --maxw:1040px;
 
-  .logo{
-  margin:20px 0 10px;
-  font-size:64px;
-  letter-spacing:-1.6px;
-  line-height:1.02;
-  font-weight:900;
-}
-
-.logo span{
-  display:inline-block;
-  color: var(--text);
-  /* 텍스트가 더 “광택”나 보이게 */
-  text-shadow: 0 10px 30px rgba(0,0,0,.10);
-}
-
-/* “레인보우”가 아니라 “미세한 스펙트럼 쉬프트” */
-.logo span:nth-child(1){ color: rgba(109,94,252,1); }
-.logo span:nth-child(2){ color: rgba(118,96,252,1); }
-.logo span:nth-child(3){ color: rgba(126,104,253,1); }
-.logo span:nth-child(4){ color: rgba(120,128,255,1); }
-.logo span:nth-child(5){ color: rgba(109,160,255,1); }
-.logo span:nth-child(6){ color: rgba(79,209,255,1); }
-.logo span:nth-child(7){ color: rgba(120,222,255,1); }
-.logo span:nth-child(8){ color: rgba(190,160,255,1); }
-.logo span:nth-child(9){ color: rgba(255,77,166,1); }
-
 }
