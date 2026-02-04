@@ -1,541 +1,158 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BrandGild — The Definitive Brand-to-Launch OS</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>BrandGild</title>
 
-  <!-- Design tokens (your repo) -->
-  <link rel="stylesheet" href="/packages/ui/tokens.css">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Fonts: Dior-like display + Apple-like UI -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  font-family:Inter, sans-serif;
+  background:#fbf7f0;
+}
 
-  <style>
-    :root{
-      --ink:#0b1220;
-      --ink2:#070c16;
+/* ====== BrandGild Wordmark Button (완전 투명) ====== */
 
-      /* skin-tone paper */
-      --paper:#fbf7f0;
-      --paper2:#f6efe2;
-      --paper3:#fffdf9;
+.wordmarkBtn{
+  position:relative;
+  display:inline-flex;
+  align-items:baseline;
+  gap:8px;
+  padding:0;
+  border:none;
+  background:transparent;
+  cursor:pointer;
 
-      /* Gild gold base (must match button right) */
-      --gild:#e1c773;
+  --mx:50%;
+  --my:50%;
+}
 
-      /* button gradient left -> right (as requested) */
-      --btnL:#e5cf87;
-      --btnR:#e1c773;
+/* shimmer 레이어 (글자 내부만) */
+.wordmarkBtn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
 
-      /* shimmer beam color (not white) */
-      --beam:#fef9eb;
+  background:
+    radial-gradient(260px 160px at var(--mx) var(--my),
+      rgba(254,249,235,.9),
+      rgba(254,249,235,.4) 40%,
+      rgba(254,249,235,0) 75%
+    );
 
-      --border: rgba(16, 24, 40, .10);
-      --text: #0b1220;
-      --muted: rgba(11, 18, 32, .70);
-      --muted2: rgba(11, 18, 32, .58);
+  mix-blend-mode:screen;
+  -webkit-mask:
+    linear-gradient(#000,#000) content-box;
+  mask:
+    linear-gradient(#000,#000) content-box;
+}
 
-      --shadowSoft: 0 18px 60px rgba(11,18,32,.12);
-      --shadowCard: 0 16px 40px rgba(11,18,32,.10);
+.wordmarkBtn:hover::before{ opacity:1; }
 
-      --r-xl: 34px;
-      --r-lg: 26px;
-      --r-md: 18px;
+/* Brand */
+.wmBrand{
+  font-family:"Bodoni Moda", serif;
+  font-size:86px;
+  color:#0b1220;
+  margin-right:-6px;
+}
 
-      --maxw: 1160px;
-    }
+/* Gild (Dior 하드웨어 메탈) */
+.wmGild{
+  font-family:"Bodoni Moda", serif;
+  font-size:86px;
 
-    *{ box-sizing:border-box; }
-    html, body { height:100%; }
+  background:
+    repeating-linear-gradient(
+      115deg,
+      rgba(254,249,235,.18) 0 1px,
+      rgba(0,0,0,.06) 1px 2px
+    ),
+    #e1c773;
 
-    body{
-      margin:0;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
 
-      /* couture paper + skin-glow */
-      background:
-        radial-gradient(900px 520px at 18% 18%, rgba(225,199,115,.12), transparent 60%),
-        radial-gradient(820px 520px at 78% 42%, rgba(229,207,135,.10), transparent 62%),
-        radial-gradient(1200px 760px at 50% 0%, rgba(255,255,255,.82), transparent 58%),
-        linear-gradient(180deg, var(--paper) 0%, var(--paper2) 44%, #eef2f7 100%);
+/* ====== Invite Button ====== */
 
-      display:flex;
-      justify-content:center;
-      padding:64px 18px;
-    }
+.inviteBtn{
+  margin-top:60px;
+  height:56px;
+  padding:0 34px;
+  border-radius:999px;
+  border:none;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+  color:#0b1220;
 
-    .wrap{ width:min(var(--maxw), 100%); }
+  background:linear-gradient(90deg,#e5cf87,#e1c773);
 
-    .stage{
-      border: 1px solid rgba(255,255,255,.55);
-      border-radius: var(--r-xl);
-      overflow:hidden;
-      box-shadow: var(--shadowSoft);
+  position:relative;
+  overflow:hidden;
 
-      background:
-        radial-gradient(1200px 520px at 30% 10%, rgba(255,255,255,.92), rgba(255,255,255,.58) 55%, rgba(255,255,255,.12) 100%),
-        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.62));
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+  --mx:50%;
+  --my:50%;
+}
 
-      position:relative;
-    }
+/* 버튼 shimmer */
+.inviteBtn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
 
-    /* subtle paper grain across the stage (Dior product photo vibe) */
-    .stage::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity:.18;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(0,0,0,.06) 0 1px, transparent 1.2px) 0 0 / 22px 22px,
-        radial-gradient(circle at 70% 60%, rgba(0,0,0,.04) 0 1px, transparent 1.2px) 0 0 / 26px 26px,
-        radial-gradient(circle at 40% 80%, rgba(0,0,0,.03) 0 1px, transparent 1.2px) 0 0 / 28px 28px;
-      mix-blend-mode:multiply;
-    }
+  background:
+    radial-gradient(220px 120px at var(--mx) var(--my),
+      rgba(254,249,235,.9),
+      rgba(254,249,235,.4) 40%,
+      rgba(254,249,235,0) 75%
+    );
 
-    .top{
-      padding: 42px 46px 28px;
-      position:relative;
-      z-index:1;
-    }
+  mix-blend-mode:screen;
+}
 
-    .bottom{
-      padding: 22px 46px 30px;
-      background:
-        radial-gradient(900px 420px at 50% -10%, rgba(225,199,115,.10), transparent 60%),
-        linear-gradient(180deg, #0c1424 0%, #070d18 100%);
-      color: rgba(255,255,255,.86);
-      position:relative;
-      z-index:1;
-    }
+.inviteBtn:hover::before{ opacity:1; }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:12px;
-      padding:12px 18px;
-      border-radius:999px;
-      border:1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.74);
-      box-shadow: 0 10px 28px rgba(11,18,32,.08);
-      color: rgba(11,18,32,.72);
-      font-size:14px;
-      letter-spacing:.2px;
-    }
-    .pill b{ color: rgba(11,18,32,.92); font-weight:700; }
-
-    .hero{
-      margin-top: 26px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 26px;
-      align-items:start;
-    }
-
-    /* === WORDMARK: ONE "invisible capsule" containing Brand Gild === */
-    .wordmarkCapsule{
-      position:relative;
-      display:inline-flex;
-      align-items:baseline;
-      gap: 12px;
-      padding: 10px 14px 12px;
-
-      /* No border, no obvious button UI */
-      border:none;
-      outline:none;
-      background: transparent;
-      box-shadow:none;
-
-      /* shimmer coords */
-      --mx: 50%;
-      --my: 50%;
-    }
-
-    /* shimmer lives ONLY inside this capsule (not around it) */
-    .wordmarkCapsule::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      opacity:0;
-      transition: opacity .18s ease;
-
-      /* bright beam that clearly moves */
-      background:
-        radial-gradient(220px 140px at var(--mx) var(--my),
-          rgba(254,249,235,.80),
-          rgba(254,249,235,.34) 36%,
-          rgba(254,249,235,0) 70%
-        );
-      mix-blend-mode: screen;
-    }
-    .wordmarkCapsule:hover::before{ opacity:1; }
-
-    /* the actual H1 layout */
-    h1{
-      margin: 0 0 10px;
-      font-family: "Bodoni Moda", serif;
-      font-weight: 650;
-      font-size: clamp(54px, 7vw, 88px);
-      letter-spacing: -1.2px;
-      line-height: .95;
-      color: var(--ink);
-      text-rendering: geometricPrecision;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .wmBrand{
-      position:relative;
-      z-index:1;  /* above shimmer */
-      color: var(--ink);
-      text-shadow: 0 1px 0 rgba(255,255,255,.60);
-    }
-
-    /* Gild: no stroke (to prevent color-mixing), fill matches button right */
-    .wmGild{
-      position:relative;
-      z-index:1;  /* above shimmer */
-
-      /* exact fill */
-      color: var(--gild);
-
-      /* ultra-subtle depth without changing hue */
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.35);
-
-      /* micro metal brush texture INSIDE text only */
-      background-image:
-        repeating-linear-gradient(
-          115deg,
-          rgba(254,249,235,.16) 0 1px,
-          rgba(0,0,0,.08) 1px 2px
-        );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-
-      /* force the perceived gold by overlaying base gold under the brush */
-      /* (keeps the hue consistent with button right) */
-    }
-    .wmGild::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background: var(--gild);
-      -webkit-mask: linear-gradient(#000,#000);
-      mask: linear-gradient(#000,#000);
-      mix-blend-mode: multiply;
-      opacity: 1;
-      z-index:-1;
-    }
-
-    .headline{
-      margin: 0 0 12px;
-      font-weight: 650;
-      letter-spacing: .2px;
-      color: rgba(11,18,32,.90);
-      font-size: 20px;
-      line-height: 1.25;
-    }
-
-    .kicker{
-      margin: 0 0 18px;
-      font-size: 18px;
-      line-height: 1.55;
-      color: var(--muted);
-      max-width: 62ch;
-    }
-
-    .lede{
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-    }
-
-    .features{
-      margin-top: 28px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .feature{
-      border: 1px solid rgba(11,18,32,.08);
-      border-radius: 20px;
-      background: rgba(255,255,255,.86);
-      box-shadow: var(--shadowCard);
-      padding: 18px 18px 16px;
-      position: relative;
-    }
-
-    .feature .idx{
-      font-size: 12px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(11,18,32,.48);
-      margin-bottom: 10px;
-    }
-    .feature .t{
-      margin: 0 0 6px;
-      font-size: 16px;
-      font-weight: 700;
-      color: rgba(11,18,32,.92);
-    }
-    .feature .d{
-      margin: 0 0 12px;
-      font-size: 14px;
-      color: var(--muted2);
-      line-height: 1.55;
-    }
-
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top: 10px;
-    }
-    .chip{
-      font-size: 12px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.78);
-      color: rgba(11,18,32,.70);
-    }
-
-    .ctaRow{
-      display:grid;
-      grid-template-columns: 1fr 260px;
-      gap: 14px;
-      align-items:center;
-      margin-top: 18px;
-    }
-
-    .input{
-      height: 54px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
-      padding: 0 18px;
-      outline: none;
-      font-size: 15px;
-    }
-    .input::placeholder{ color: rgba(255,255,255,.42); }
-
-    /* === BUTTON: gradient must match (L->R), shimmer must be obvious === */
-    .btn{
-      position:relative;
-      height: 54px;
-      border: 0;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 15px;
-      letter-spacing: .2px;
-      color: rgba(10, 12, 22, .92);
-
-      background: linear-gradient(90deg, var(--btnL), var(--btnR));
-      box-shadow: 0 18px 40px rgba(225,199,115,.18);
-
-      overflow:hidden;
-
-      --mx: 50%;
-      --my: 50%;
-    }
-
-    .btn::before{
-      content:"";
-      position:absolute;
-      inset:-60%;
-      pointer-events:none;
-      opacity:.0;
-      transition: opacity .14s ease;
-
-      background:
-        radial-gradient(260px 170px at var(--mx) var(--my),
-          rgba(254,249,235,.95),
-          rgba(254,249,235,.48) 35%,
-          rgba(254,249,235,0) 70%
-        );
-      mix-blend-mode: soft-light;
-    }
-    .btn:hover::before{ opacity:1; }
-
-    .btn:hover{ transform: translateY(-1px); filter: saturate(1.02) brightness(1.02); }
-    .btn:active{ transform: translateY(0px); }
-
-    .note{
-      margin-top: 12px;
-      color: rgba(255,255,255,.60);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .footerRow{
-      margin-top: 22px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 12px;
-      color: rgba(255,255,255,.45);
-      font-size: 12px;
-    }
-    .links{
-      display:flex;
-      gap: 16px;
-      flex-wrap:wrap;
-    }
-    .links a{
-      color: rgba(255,255,255,.62);
-      text-decoration:none;
-    }
-    .links a:hover{ color: rgba(255,255,255,.86); }
-
-    @media (max-width: 980px){
-      .top{ padding: 34px 20px 22px; }
-      .bottom{ padding: 20px 20px 24px; }
-      .hero{ grid-template-columns: 1fr; }
-      .features{ grid-template-columns: 1fr; }
-      .ctaRow{ grid-template-columns: 1fr; }
-      .btn{ width:100%; }
-      .footerRow{ flex-direction:column; align-items:flex-start; }
-    }
-  </style>
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <section class="stage">
-      <div class="top">
-        <div class="pill">
-          Invite-only early access • <b>Brand</b> → <b>Launch</b> → <b>Growth</b>
-        </div>
 
-        <div class="hero">
-          <div>
-            <h1>
-              <!-- ONE capsule, no visible border, no button vibe -->
-              <span class="wordmarkCapsule" data-shimmer="wordmark" aria-label="BrandGild">
-                <span class="wmBrand">Brand</span>
-                <span class="wmGild">Gild</span>
-              </span>
-            </h1>
+<div style="padding:80px">
 
-            <p class="headline">The definitive Brand-to-Launch OS. <br/>Elevate your vision.</p>
+  <button class="wordmarkBtn">
+    <span class="wmBrand">Brand</span>
+    <span class="wmGild">Gild</span>
+  </button>
 
-            <p class="kicker">
-              Craft a world-class visual identity, bespoke website, and product presence.
-              For solo founders demanding excellence (no agency required).
-            </p>
-          </div>
+  <br/>
 
-          <div>
-            <p class="lede">
-              A premium system that makes your brand look <b>fundable</b> and your launch feel <b>inevitable</b>.
-              Built for speed, taste, and repeatability.
-            </p>
-          </div>
-        </div>
+  <button class="inviteBtn">Request an Invite</button>
 
-        <div class="features">
-          <article class="feature">
-            <div class="idx">Module 01</div>
-            <p class="t">Brand DNA</p>
-            <p class="d">Lock tone, palette, rules, and positioning once — apply everywhere.</p>
-            <div class="chips">
-              <span class="chip">Voice &amp; Claims</span>
-              <span class="chip">Palette &amp; Type</span>
-              <span class="chip">Do/Don’t Rules</span>
-            </div>
-          </article>
+</div>
 
-          <article class="feature">
-            <div class="idx">Module 02</div>
-            <p class="t">Asset System</p>
-            <p class="d">Reusable page sections, CTAs, and visuals — assemble, don’t rebuild.</p>
-            <div class="chips">
-              <span class="chip">Landing Sections</span>
-              <span class="chip">Product Page Blocks</span>
-              <span class="chip">Export Kit</span>
-            </div>
-          </article>
+<script>
+document.addEventListener("mousemove", e=>{
+  const x = (e.clientX / window.innerWidth) * 100 + "%";
+  const y = (e.clientY / window.innerHeight) * 100 + "%";
 
-          <article class="feature">
-            <div class="idx">Module 03</div>
-            <p class="t">Launch Loop</p>
-            <p class="d">Always-on marketing briefs + updates so your presence stays alive.</p>
-            <div class="chips">
-              <span class="chip">Weekly Brief</span>
-              <span class="chip">Campaign Prompts</span>
-              <span class="chip">Iteration Log</span>
-            </div>
-          </article>
-        </div>
-      </div>
+  document.querySelectorAll('.wordmarkBtn, .inviteBtn').forEach(el=>{
+    el.style.setProperty('--mx', x);
+    el.style.setProperty('--my', y);
+  });
+});
+</script>
 
-      <div class="bottom">
-        <form id="earlyAccessForm" class="ctaRow">
-          <input id="email" class="input" type="email" required placeholder="Enter your email" />
-          <button type="submit" class="btn" data-shimmer="button">Request an Invite</button>
-        </form>
-
-        <div class="note">
-          Limited invites. You’ll receive an onboarding link + the first “brand audit” prompt pack.
-        </div>
-
-        <div class="footerRow">
-          <div>© 2026 BrandGild. All rights reserved.</div>
-          <nav class="links" aria-label="Footer">
-            <a href="#about">About</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#blog">Blog</a>
-            <a href="#contact">Contact</a>
-          </nav>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    // No backend needed: opens user's email client with prefilled message
-    document.getElementById('earlyAccessForm').addEventListener('submit', function(e){
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const subject = encodeURIComponent('BrandGild — Early Access Request');
-      const body = encodeURIComponent(
-        `Please invite me to BrandGild early access.\n\nMy email: ${email}\n\nWhat I'm building (1 line): `
-      );
-      window.location.href = `mailto:emmaestro123@gmail.com?subject=${subject}&body=${body}`;
-    });
-
-    // Shimmer coord driver for wordmark + button
-    (function(){
-      const els = document.querySelectorAll('[data-shimmer]');
-      const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
-
-      els.forEach(el=>{
-        el.addEventListener('mousemove', (e)=>{
-          const r = el.getBoundingClientRect();
-          const x = ((e.clientX - r.left) / r.width) * 100;
-          const y = ((e.clientY - r.top) / r.height) * 100;
-          el.style.setProperty('--mx', clamp(x,0,100) + '%');
-          el.style.setProperty('--my', clamp(y,0,100) + '%');
-        });
-        el.addEventListener('mouseleave', ()=>{
-          el.style.setProperty('--mx','50%');
-          el.style.setProperty('--my','50%');
-        });
-      });
-    })();
-  </script>
 </body>
 </html>
