@@ -3,392 +3,338 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BrandGild — The Definitive Brand-to-Launch OS</title>
+  <title>BrandGild — Premium Brand-to-Launch OS</title>
 
-  <!-- Design tokens (your repo) -->
   <link rel="stylesheet" href="/packages/ui/tokens.css">
 
-  <!-- Fonts: Dior-like display + Apple-like UI -->
+  <!-- DIOR-like serif (logo) + Apple-like UI sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* ===== Override tokens.css here (so you don't have to touch tokens.css) ===== */
-      --ink:#0b1220;              /* deep ink */
-      --ink2:#070c16;
+      /* Porcelain / skin-tone light */
+      --pageA:#f6f3ef;
+      --pageB:#f3f6fb;
+      --ink:#12151f;
+      --ink2:rgba(18,21,31,.72);
+      --ink3:rgba(18,21,31,.56);
 
-      /* "skin-tone" paper (lighter, less muddy) */
-      --paper:#fbf7f0;
-      --paper2:#f6efe2;
-      --paper3:#fffdf9;
+      /* Champagne Gold (soft, Gen-A friendly, not orange/bronze) */
+      --gold1:#efe2c6; /* highlight */
+      --gold2:#d9c49a; /* body */
+      --gold3:#b89a66; /* depth (keep subtle) */
 
-      /* gold (Hermès-ish, not orange) */
-      --gold1:#d7b36a;
-      --gold2:#f2dfaa;
-      --gold3:#b98a3f;
+      /* Surfaces */
+      --card:#ffffffcc;
+      --card2:#ffffffb8;
+      --border:rgba(18,21,31,.10);
+      --border2:rgba(18,21,31,.14);
 
-      /* shared */
-      --border: rgba(16, 24, 40, .10);
-      --border2: rgba(16, 24, 40, .14);
+      --shadow1: 0 18px 60px rgba(15,18,30,.12);
+      --shadow2: 0 12px 30px rgba(15,18,30,.10);
 
-      --text: #0b1220;
-      --muted: rgba(11, 18, 32, .70);
-      --muted2: rgba(11, 18, 32, .58);
+      --r-xl:34px;
+      --r-lg:28px;
+      --r-md:18px;
 
-      --shadowSoft: 0 18px 60px rgba(11,18,32,.12);
-      --shadowCard: 0 16px 40px rgba(11,18,32,.10);
-
-      --r-xl: 34px;
-      --r-lg: 26px;
-      --r-md: 18px;
-
-      --maxw: 1160px;
+      --maxw:1120px;
     }
 
-    *{ box-sizing:border-box; }
-    html, body { height:100%; }
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-
-      /* Premium paper + subtle couture glow */
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--ink);
       background:
-        radial-gradient(900px 520px at 18% 18%, rgba(215,179,106,.20), transparent 60%),
-        radial-gradient(820px 520px at 78% 42%, rgba(184,156,96,.14), transparent 62%),
-        radial-gradient(1200px 760px at 50% 0%, rgba(255,255,255,.80), transparent 58%),
-        linear-gradient(180deg, var(--paper) 0%, var(--paper2) 44%, #eef2f7 100%);
-
+        radial-gradient(900px 520px at 18% 18%, rgba(217,196,154,.35), transparent 60%),
+        radial-gradient(980px 620px at 84% 54%, rgba(140,168,255,.22), transparent 62%),
+        radial-gradient(760px 520px at 52% 112%, rgba(16,20,34,.06), transparent 60%),
+        linear-gradient(180deg, var(--pageA), var(--pageB));
+      min-height:100vh;
       display:flex;
       justify-content:center;
-      padding:64px 18px;
+      padding:54px 18px;
     }
 
     .wrap{ width:min(var(--maxw), 100%); }
 
-    /* Main stage card */
-    .stage{
-      border: 1px solid rgba(255,255,255,.55);
-      border-radius: var(--r-xl);
-      overflow:hidden;
-      box-shadow: var(--shadowSoft);
-
-      background:
-        radial-gradient(1200px 520px at 30% 10%, rgba(255,255,255,.90), rgba(255,255,255,.55) 55%, rgba(255,255,255,.15) 100%),
-        linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    /* Top (paper) / Bottom (ink) split */
-    .top{
-      padding: 42px 46px 28px;
+    /* Main glass panel */
+    .panel{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.52));
+      border-radius:var(--r-xl);
+      box-shadow: var(--shadow1);
+      padding:42px 42px 34px;
       position:relative;
-    }
-    .bottom{
-      padding: 22px 46px 30px;
-      background:
-        radial-gradient(900px 420px at 50% -10%, rgba(215,179,106,.10), transparent 60%),
-        linear-gradient(180deg, #0c1424 0%, #070d18 100%);
-      color: rgba(255,255,255,.86);
+      overflow:hidden;
     }
 
-    /* Pill */
+    .panel:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(1200px 680px at 16% 18%, rgba(239,226,198,.55), transparent 60%),
+        radial-gradient(980px 640px at 86% 56%, rgba(116,154,255,.22), transparent 62%);
+      pointer-events:none;
+      filter: blur(2px);
+      opacity:.9;
+    }
+
+    .panel > *{ position:relative; }
+
+    /* Top pill */
     .pill{
       display:inline-flex;
       align-items:center;
-      gap:12px;
-      padding:12px 18px;
+      gap:10px;
+      padding:11px 16px;
+      border:1px solid var(--border);
       border-radius:999px;
-      border:1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.72);
-      box-shadow: 0 10px 28px rgba(11,18,32,.08);
-      color: rgba(11,18,32,.72);
-      font-size:14px;
+      background: rgba(255,255,255,.55);
+      color:var(--ink2);
+      font-size:13px;
       letter-spacing:.2px;
+      box-shadow: 0 10px 26px rgba(15,18,30,.06);
     }
-    .pill b{ color: rgba(11,18,32,.92); font-weight:700; }
+    .pill b{ color:var(--ink); font-weight:700; }
 
-    /* Hero title (Dior-like) */
-    .hero{
-      margin-top: 26px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 26px;
-      align-items:start;
+    /* Logo */
+    .logo{
+      margin:22px 0 10px;
+      font-family: "Bodoni Moda", "Didot", "Baskerville", serif;
+      font-size:74px;
+      line-height:1.0;
+      letter-spacing:-.8px;
+      font-weight:600; /* thicker than before */
     }
-
-    h1{
-      margin: 0 0 10px;
-      font-family: "Bodoni Moda", serif;
-      font-weight: 650;               /* thicker so it doesn't disappear */
-      font-size: clamp(54px, 7vw, 88px);
-      letter-spacing: -1.2px;
-      line-height: .95;
-      color: var(--ink);
-      text-rendering: geometricPrecision;
-
-      /* subtle clarity (fix thin-stroke washout) */
-      text-shadow: 0 1px 0 rgba(255,255,255,.65);
+    .logo .brand{
+      color:#12151f;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.65),
+        0 22px 50px rgba(15,18,30,.10);
     }
 
-    /* Brand / Gild split: luxury, not rainbow */
-    .wordmark .brand{
-      color: var(--ink);
-    }
-    .wordmark .gild{
-      background: linear-gradient(120deg, var(--gold1), var(--gold2) 55%, var(--gold3));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 1px 0 rgba(255,255,255,.65);
-    }
+    /* Engraved + gilded word (same gradient direction as button) */
+    .logo .gild{
+      display:inline-block;
+      background-image:
+        linear-gradient(135deg, var(--gold1), var(--gold2) 42%, var(--gold3) 92%),
+        linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,0));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
 
-    .kicker{
-      margin: 0 0 18px;
-      font-size: 18px;
-      line-height: 1.55;
-      color: var(--muted);
-      max-width: 62ch;
+      /* subtle “engrave” edge so it reads (no faint gold) */
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.55),
+        0 -1px 0 rgba(15,18,30,.08),
+        0 16px 38px rgba(15,18,30,.10);
     }
 
     .headline{
-      margin: 0 0 12px;
-      font-weight: 650;
-      letter-spacing: .2px;
-      color: rgba(11,18,32,.90);
-      font-size: 20px;
-      line-height: 1.25;
+      margin:0 0 12px;
+      font-size:26px;
+      font-weight:600;
+      letter-spacing:-.2px;
+      color:rgba(18,21,31,.86);
     }
 
-    .lede{
-      margin: 0;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
+    .sub{
+      margin:0;
+      max-width:860px;
+      font-size:16px;
+      line-height:1.65;
+      color:var(--ink2);
     }
 
-    /* Feature cards shelf */
-    .features{
-      margin-top: 28px;
+    /* mini sitemap pills (your item #1) */
+    .mini{
+      margin-top:18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .tag{
+      padding:9px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background: rgba(255,255,255,.55);
+      color:rgba(18,21,31,.70);
+      font-size:13px;
+      letter-spacing:.1px;
+    }
+
+    /* feature cards */
+    .grid{
+      margin-top:22px;
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .feature{
-      border: 1px solid rgba(11,18,32,.10);
-      border-radius: 20px;
-      background: rgba(255,255,255,.78);
-      box-shadow: var(--shadowCard);
-      padding: 18px 18px 16px;
-      position: relative;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
     }
 
-    /* Replace childish icons with luxury index label */
-    .feature .idx{
-      font-size: 12px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(11,18,32,.48);
-      margin-bottom: 10px;
+    .feature{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.62);
+      border-radius:22px;
+      padding:18px 18px 16px;
+      box-shadow: var(--shadow2);
     }
     .feature .t{
-      margin: 0 0 6px;
-      font-size: 16px;
-      font-weight: 700;
-      color: rgba(11,18,32,.92);
+      margin:0 0 8px;
+      font-size:15px;
+      font-weight:700;
+      letter-spacing:.1px;
+      color:rgba(18,21,31,.92);
     }
     .feature .d{
-      margin: 0 0 12px;
-      font-size: 14px;
-      color: var(--muted2);
-      line-height: 1.55;
+      margin:0;
+      font-size:13.5px;
+      color:var(--ink3);
+      line-height:1.55;
     }
 
-    /* Meaningful chips (instead of useless icon buttons) */
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top: 10px;
-    }
-    .chip{
-      font-size: 12px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.72);
-      color: rgba(11,18,32,.70);
-    }
-
-    /* Bottom CTA area */
-    .ctaRow{
+    /* bottom bar */
+    .bottom{
+      margin-top:22px;
+      border-radius:26px;
+      background:
+        radial-gradient(800px 380px at 22% 0%, rgba(239,226,198,.18), transparent 62%),
+        linear-gradient(180deg, rgba(10,12,20,.92), rgba(10,12,20,.86));
+      border:1px solid rgba(255,255,255,.10);
+      padding:18px;
       display:grid;
       grid-template-columns: 1fr 260px;
-      gap: 14px;
+      gap:14px;
       align-items:center;
-      margin-top: 18px;
+      box-shadow: 0 24px 70px rgba(10,12,20,.22);
     }
-    .input{
-      height: 54px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
+
+    input{
+      height:54px;
+      padding:0 16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
       color: rgba(255,255,255,.92);
-      padding: 0 18px;
-      outline: none;
-      font-size: 15px;
+      font-size:15px;
+      outline:none;
     }
-    .input::placeholder{ color: rgba(255,255,255,.42); }
+    input::placeholder{ color: rgba(255,255,255,.42); }
 
-    .btn{
-      height: 54px;
-      border: 0;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 15px;
-      letter-spacing: .2px;
-
-      background: linear-gradient(135deg, var(--gold2), var(--gold1) 55%, var(--gold3));
-      color: rgba(10, 12, 22, .92);
-      box-shadow: 0 18px 40px rgba(215,179,106,.18);
+    /* Button gold (same angle as Gild) but softer + less “dirty bronze” */
+    button{
+      height:54px;
+      border:0;
+      border-radius:18px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:15px;
+      color:rgba(14,16,24,.92);
+      background:
+        linear-gradient(135deg, var(--gold1), var(--gold2) 46%, var(--gold3) 92%);
+      box-shadow:
+        0 10px 26px rgba(0,0,0,.18),
+        inset 0 1px 0 rgba(255,255,255,.55);
     }
-    .btn:hover{ filter: brightness(1.04); transform: translateY(-1px); }
-    .btn:active{ transform: translateY(0px); }
+    button:hover{ filter:brightness(1.03); transform: translateY(-1px); }
+    button:active{ transform: translateY(0); }
 
     .note{
-      margin-top: 12px;
-      color: rgba(255,255,255,.60);
-      font-size: 13px;
-      line-height: 1.55;
+      margin-top:12px;
+      color:rgba(255,255,255,.60);
+      font-size:13px;
+      line-height:1.55;
     }
-
-    .footerRow{
-      margin-top: 22px;
+    footer{
+      margin-top:14px;
+      color:rgba(18,21,31,.35);
+      font-size:12px;
       display:flex;
       justify-content:space-between;
-      align-items:center;
-      gap: 12px;
-      color: rgba(255,255,255,.45);
-      font-size: 12px;
-    }
-    .links{
-      display:flex;
-      gap: 16px;
+      gap:12px;
       flex-wrap:wrap;
     }
-    .links a{
-      color: rgba(255,255,255,.62);
+    footer a{
+      color:rgba(18,21,31,.45);
       text-decoration:none;
     }
-    .links a:hover{ color: rgba(255,255,255,.86); }
+    footer a:hover{ color:rgba(18,21,31,.70); text-decoration:underline; }
 
-    /* Responsive */
     @media (max-width: 980px){
-      .top{ padding: 34px 20px 22px; }
-      .bottom{ padding: 20px 20px 24px; }
-
-      .hero{ grid-template-columns: 1fr; }
-      .features{ grid-template-columns: 1fr; }
-
-      .ctaRow{ grid-template-columns: 1fr; }
-      .btn{ width:100%; }
-
-      .footerRow{ flex-direction:column; align-items:flex-start; }
+      .panel{ padding:34px 20px 26px; }
+      .logo{ font-size:56px; }
+      .grid{ grid-template-columns:1fr; }
+      .bottom{ grid-template-columns: 1fr; }
+      button{ width:100%; }
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <section class="stage">
-      <div class="top">
-        <div class="pill">
-          Invite-only early access • <b>Brand</b> → <b>Launch</b> → <b>Growth</b>
+    <div class="panel">
+      <div class="pill">Invite-only early access • <b>Brand</b> → <b>Launch</b> → <b>Growth</b></div>
+
+      <div class="logo" aria-label="BrandGild">
+        <span class="brand">Brand</span> <span class="gild">Gild</span>
+      </div>
+
+      <div class="headline">The definitive Brand-to-Launch OS. Elevate your vision.</div>
+      <p class="sub">
+        Craft a world-class visual identity, bespoke website, and product presence — for solo founders demanding excellence (no agency required).
+      </p>
+
+      <!-- Your #1 list (cleaned into luxe tags) -->
+      <div class="mini" aria-label="What you get">
+        <span class="tag">Voice & Claims</span>
+        <span class="tag">Palette & Type</span>
+        <span class="tag">Do / Don’t Rules</span>
+        <span class="tag">Landing Sections</span>
+        <span class="tag">Product Page Blocks</span>
+        <span class="tag">Export Kit</span>
+        <span class="tag">Weekly Brief</span>
+        <span class="tag">Campaign Prompts</span>
+        <span class="tag">Iteration Log</span>
+      </div>
+
+      <div class="grid">
+        <div class="feature">
+          <p class="t">Brand DNA</p>
+          <p class="d">Tone, palette, rules, and positioning — locked once, applied everywhere.</p>
         </div>
-
-        <div class="hero">
-          <div>
-            <h1 class="wordmark">
-              <span class="brand">Brand</span>&nbsp;<span class="gild">Gild</span>
-            </h1>
-
-            <p class="headline">The definitive Brand-to-Launch OS. <br/>Elevate your vision.</p>
-
-            <p class="kicker">
-              Craft a world-class visual identity, bespoke website, and product presence.
-              For solo founders demanding excellence (no agency required).
-            </p>
-          </div>
-
-          <div>
-            <p class="lede">
-              A premium system that makes your brand look <b>fundable</b> and your launch feel <b>inevitable</b>.
-              Built for speed, taste, and repeatability.
-            </p>
-          </div>
+        <div class="feature">
+          <p class="t">Asset System</p>
+          <p class="d">Reusable blocks for pages, sections, CTAs, and visuals — assemble, don’t rebuild.</p>
         </div>
-
-        <div class="features">
-          <article class="feature">
-            <div class="idx">Module 01</div>
-            <p class="t">Brand DNA</p>
-            <p class="d">Lock tone, palette, rules, and positioning once — apply everywhere.</p>
-            <div class="chips">
-              <span class="chip">Voice &amp; Claims</span>
-              <span class="chip">Palette &amp; Type</span>
-              <span class="chip">Do/Don’t Rules</span>
-            </div>
-          </article>
-
-          <article class="feature">
-            <div class="idx">Module 02</div>
-            <p class="t">Asset System</p>
-            <p class="d">Reusable page sections, CTAs, and visuals — assemble, don’t rebuild.</p>
-            <div class="chips">
-              <span class="chip">Landing Sections</span>
-              <span class="chip">Product Page Blocks</span>
-              <span class="chip">Export Kit</span>
-            </div>
-          </article>
-
-          <article class="feature">
-            <div class="idx">Module 03</div>
-            <p class="t">Launch Loop</p>
-            <p class="d">Always-on marketing briefs + updates so your presence stays alive.</p>
-            <div class="chips">
-              <span class="chip">Weekly Brief</span>
-              <span class="chip">Campaign Prompts</span>
-              <span class="chip">Iteration Log</span>
-            </div>
-          </article>
+        <div class="feature">
+          <p class="t">Launch Loop</p>
+          <p class="d">Always-on briefs + updates so your presence stays current, consistent, and “alive.”</p>
         </div>
       </div>
 
       <div class="bottom">
-        <form id="earlyAccessForm" class="ctaRow">
-          <input id="email" class="input" type="email" required placeholder="Enter your email" />
-          <button type="submit" class="btn">Request an Invite</button>
+        <form id="earlyAccessForm" style="margin:0">
+          <input id="email" type="email" required placeholder="Enter your email" />
         </form>
+        <button type="submit" form="earlyAccessForm">Request an Invite</button>
 
-        <div class="note">
+        <div class="note" style="grid-column:1 / -1">
           Limited invites. You’ll receive an onboarding link + the first “brand audit” prompt pack.
         </div>
-
-        <div class="footerRow">
-          <div>© 2026 BrandGild. All rights reserved.</div>
-          <nav class="links" aria-label="Footer">
-            <a href="#about">About</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#blog">Blog</a>
-            <a href="#contact">Contact</a>
-          </nav>
-        </div>
       </div>
-    </section>
+
+      <footer>
+        <span>© 2026 BrandGild. All rights reserved.</span>
+        <span>
+          <a href="#about">About</a> &nbsp;&nbsp;
+          <a href="#pricing">Pricing</a> &nbsp;&nbsp;
+          <a href="#blog">Blog</a> &nbsp;&nbsp;
+          <a href="#contact">Contact</a>
+        </span>
+      </footer>
+    </div>
   </div>
 
   <script>
@@ -400,7 +346,6 @@
       const body = encodeURIComponent(
         `Please invite me to BrandGild early access.\n\nMy email: ${email}\n\nWhat I'm building (1 line): `
       );
-      // TODO: replace with your receiving email
       window.location.href = `mailto:emmaestro123@gmail.com?subject=${subject}&body=${body}`;
     });
   </script>
