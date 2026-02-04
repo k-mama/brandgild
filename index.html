@@ -27,7 +27,12 @@
 
   .card{
     border:1px solid var(--border);
-    background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    background:
+      radial-gradient(1200px 700px at 18% 18%, var(--glow1), transparent 60%),
+      radial-gradient(980px 640px at 82% 58%, var(--glow2), transparent 62%),
+      radial-gradient(900px 600px at 50% 110%, rgba(255,255,255,.06), transparent 60%),
+      linear-gradient(180deg, var(--bg), var(--bg2));
+
     box-shadow:var(--shadow1);
     border-radius:var(--r-lg);
     padding:42px 42px 34px;
