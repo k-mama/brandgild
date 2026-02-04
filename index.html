@@ -110,32 +110,23 @@
     }
 
     /* NEW: “Gild” metal, without white/bronze vibe */
-    .logo .gild{
-      background:
-        linear-gradient(110deg,
-          var(--g1) 0%,
-          var(--g2) 34%,
-          var(--g3) 62%,
-          var(--g4) 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      text-shadow: 0 12px 28px rgba(10,14,24,.10);
-      position:relative;
-      filter:saturate(.96) contrast(1.02);
-    }
+.logo .gild{
+  background: linear-gradient(
+    to bottom,
+    #e6c98a 0%,
+    #c9a24a 38%,
+    #9b7a32 62%,
+    #6f5522 100%
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow: 0 14px 30px rgba(0,0,0,.12);
+}
+
 
     /* micro highlight (no eraser-white) */
-    .logo .gild:after{
-      content:"";
-      position:absolute;
-      left:0; right:0;
-      top:14%;
-      height:1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.34), transparent);
-      opacity:.25;
-      pointer-events:none;
-    }
+
 
     .sub{
       margin:0;
