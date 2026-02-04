@@ -23,13 +23,17 @@
       --paper2:#f7efdf;
       --paper3:#ffffff;
 
-      /* Gold: bright highlight + warm core + deep edge (not orange, not heavy bronze) */
-      --goldHi:#f7e6b6;
-      --goldMid:#d6b36b;
-      --goldDeep:#b88aa3d;
+      /* ===== Dior-like gold (less white, more metallic) =====
+         - hi: satin highlight (not pure white)
+         - mid: Dior jewelry gold core
+         - deep: edge shadow (avoid muddy bronze)
+      */
+      --goldHi:#f3dea6;   /* satin highlight */
+      --goldMid:#d2ad5f;  /* core */
+      --goldDeep:#a7772e; /* edge */
 
-      /* SINGLE SOURCE OF TRUTH: gild + button use identical gradient */
-      --goldGrad: linear-gradient(135deg, var(--goldHi) 0%, var(--goldMid) 48%, var(--goldDeep) 100%);
+      /* One gradient for BOTH gild + button */
+      --goldGrad: linear-gradient(135deg, var(--goldHi) 0%, var(--goldMid) 52%, var(--goldDeep) 100%);
 
       --text: #0b1220;
       --muted: rgba(11, 18, 32, .70);
@@ -47,7 +51,7 @@
       /* Shimmer control (JS updates these) */
       --mx: 52%;
       --my: 22%;
-      --shine: .70; /* base intensity */
+      --shine: .62; /* base intensity (reduced to prevent gold washout) */
     }
 
     *{ box-sizing:border-box; }
@@ -57,10 +61,9 @@
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
 
-      /* Premium paper + couture glow */
       background:
-        radial-gradient(980px 540px at 18% 18%, rgba(214,179,107,.16), transparent 60%),
-        radial-gradient(860px 540px at 78% 42%, rgba(184,138,61,.10), transparent 62%),
+        radial-gradient(980px 540px at 18% 18%, rgba(210,173,95,.14), transparent 60%),
+        radial-gradient(860px 540px at 78% 42%, rgba(167,119,46,.09), transparent 62%),
         radial-gradient(1400px 900px at 50% 0%, rgba(255,255,255,.92), transparent 60%),
         linear-gradient(180deg, var(--paper) 0%, var(--paper2) 46%, #eef2f7 100%);
 
@@ -71,7 +74,6 @@
 
     .wrap{ width:min(var(--maxw), 100%); }
 
-    /* Main stage card */
     .stage{
       border: 1px solid rgba(255,255,255,.62);
       border-radius: var(--r-xl);
@@ -92,19 +94,16 @@
       position:absolute;
       inset:0;
       pointer-events:none;
-      opacity:.10; /* grain strength */
+      opacity:.10;
       mix-blend-mode: multiply;
       background:
-        /* micro speckle */
         radial-gradient(circle at 10% 20%, rgba(0,0,0,.35) 0 1px, transparent 2px) 0 0/180px 180px,
         radial-gradient(circle at 80% 40%, rgba(0,0,0,.28) 0 1px, transparent 2px) 0 0/220px 220px,
         radial-gradient(circle at 30% 75%, rgba(0,0,0,.22) 0 1px, transparent 2px) 0 0/260px 260px,
-        /* soft fiber noise */
         repeating-linear-gradient(0deg, rgba(0,0,0,.035) 0 1px, transparent 1px 4px),
         repeating-linear-gradient(90deg, rgba(0,0,0,.028) 0 1px, transparent 1px 5px);
     }
 
-    /* Top / Bottom split */
     .top{
       padding: 42px 46px 28px;
       position:relative;
@@ -112,14 +111,13 @@
     .bottom{
       padding: 22px 46px 30px;
       background:
-        radial-gradient(900px 420px at 50% -10%, rgba(214,179,107,.10), transparent 60%),
+        radial-gradient(900px 420px at 50% -10%, rgba(210,173,95,.10), transparent 60%),
         linear-gradient(180deg, #0c1424 0%, #070d18 100%);
       color: rgba(255,255,255,.86);
       position: relative;
       overflow: hidden;
     }
 
-    /* Pill */
     .pill{
       display:inline-flex;
       align-items:center;
@@ -135,7 +133,6 @@
     }
     .pill b{ color: rgba(11,18,32,.92); font-weight:700; }
 
-    /* Hero */
     .hero{
       margin-top: 26px;
       display:grid;
@@ -154,7 +151,6 @@
       text-rendering: geometricPrecision;
     }
 
-    /* Wordmark container */
     .wordmark{
       position: relative;
       display:inline-flex;
@@ -163,18 +159,16 @@
       isolation: isolate;
     }
 
-    /* (1) Brand = deboss/press (engraved into paper) */
+    /* Brand deboss */
     .wordmark .brand{
       color: #101827;
       position: relative;
-      /* pressed look: top highlight + inner shadow */
       text-shadow:
         0 1px 0 rgba(255,255,255,.92),
         0 -1px 0 rgba(0,0,0,.10),
         0 14px 32px rgba(11,18,32,.08);
       -webkit-text-stroke: .45px rgba(10,14,26,.18);
     }
-    /* extra press micro-contrast */
     .wordmark .brand::after{
       content:"";
       position:absolute;
@@ -188,35 +182,39 @@
       opacity:.35;
     }
 
-    /* (2) Gild = embossed/raised metal */
+    /* Gild embossed metal (keeps gold visible; prevents turning white) */
     .wordmark .gild{
       position: relative;
       display:inline-block;
+
       background: var(--goldGrad);
       -webkit-background-clip:text;
       background-clip:text;
       color: transparent;
 
-      /* raised edges: highlight + shadow */
+      /* edges */
+      -webkit-text-stroke: .42px rgba(120,86,22,.28);
+
+      /* raised */
       text-shadow:
-        0 1px 0 rgba(255,255,255,.85),
-        0 10px 24px rgba(11,18,32,.14);
-      -webkit-text-stroke: .40px rgba(120,90,30,.22);
+        0 1px 0 rgba(255,255,255,.65),
+        0 10px 22px rgba(11,18,32,.14);
     }
 
-    /* Shimmer DOM layer for Gild (guaranteed to work) */
+    /* Shimmer layer: changed from soft-light to screen + lower opacity
+       so it adds glow WITHOUT bleaching the gold */
     .gild .shimmer{
       position:absolute;
       inset:-18px -18px;
       pointer-events:none;
       background:
         radial-gradient(260px 190px at var(--mx) var(--my),
-          rgba(255,255,255, calc(var(--shine) * .70)) 0%,
-          rgba(255,255,255, calc(var(--shine) * .26)) 28%,
-          rgba(255,255,255, 0) 62%);
-      mix-blend-mode: soft-light;
+          rgba(255,255,255, calc(var(--shine) * .55)) 0%,
+          rgba(255,255,255, calc(var(--shine) * .18)) 30%,
+          rgba(255,255,255, 0) 65%);
+      mix-blend-mode: screen;
       filter: blur(2px);
-      opacity:.90;
+      opacity:.55;
     }
 
     .headline{
@@ -243,7 +241,6 @@
       line-height: 1.7;
     }
 
-    /* Feature cards shelf */
     .features{
       margin-top: 28px;
       display:grid;
@@ -266,7 +263,6 @@
       gap:12px;
       margin-bottom: 8px;
     }
-
     .feature .idx{
       font-size: 12px;
       letter-spacing: .22em;
@@ -274,7 +270,6 @@
       color: rgba(11,18,32,.48);
     }
 
-    /* Thin luxury line icons */
     .icon{
       width: 34px;
       height: 34px;
@@ -308,7 +303,6 @@
       line-height: 1.55;
     }
 
-    /* Chips */
     .chips{
       display:flex;
       flex-wrap:wrap;
@@ -324,7 +318,6 @@
       color: rgba(11,18,32,.70);
     }
 
-    /* Bottom CTA area */
     .ctaRow{
       display:grid;
       grid-template-columns: 1fr 260px;
@@ -346,7 +339,7 @@
     }
     .input::placeholder{ color: rgba(255,255,255,.42); }
 
-    /* (3) Button gold exactly matches Gild */
+    /* Button: same gold gradient + subtle couture highlight (no cheap yellow) */
     .btn{
       height: 54px;
       border: 0;
@@ -358,28 +351,37 @@
 
       background: var(--goldGrad);
       color: rgba(10, 12, 22, .92);
-      box-shadow: 0 18px 40px rgba(214,179,107,.18);
+      box-shadow: 0 18px 40px rgba(210,173,95,.18);
       position: relative;
       overflow: hidden;
       transform: translateZ(0);
     }
+    .btn::before{
+      content:"";
+      position:absolute;
+      inset: 1px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 55%);
+      pointer-events:none;
+      opacity:.55;
+    }
 
-    /* Shimmer DOM layer for Button (guaranteed to work) */
+    /* Shimmer for button: screen + subtle */
     .btn .shimmer{
       position:absolute;
       inset:-60px -80px;
       pointer-events:none;
       background:
         radial-gradient(300px 210px at var(--mx) var(--my),
-          rgba(255,255,255, calc(var(--shine) * .68)) 0%,
-          rgba(255,255,255, calc(var(--shine) * .24)) 28%,
-          rgba(255,255,255, 0) 62%);
-      mix-blend-mode: soft-light;
+          rgba(255,255,255, calc(var(--shine) * .50)) 0%,
+          rgba(255,255,255, calc(var(--shine) * .16)) 30%,
+          rgba(255,255,255, 0) 65%);
+      mix-blend-mode: screen;
       filter: blur(2px);
-      opacity:.92;
+      opacity:.55;
     }
 
-    .btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
+    .btn:hover{ filter: brightness(1.02); transform: translateY(-1px); }
     .btn:active{ transform: translateY(0px); }
 
     .note{
@@ -413,7 +415,6 @@
     }
     .links a:hover{ color: rgba(255,255,255,.86); }
 
-    /* subtle bottom fog */
     .bottom::before{
       content:"";
       position:absolute;
@@ -421,8 +422,8 @@
       pointer-events:none;
       background:
         radial-gradient(900px 420px at 50% 0%, rgba(255,255,255,.06), transparent 65%),
-        radial-gradient(700px 360px at 20% 30%, rgba(214,179,107,.08), transparent 70%),
-        radial-gradient(700px 360px at 80% 40%, rgba(214,179,107,.06), transparent 72%);
+        radial-gradient(700px 360px at 20% 30%, rgba(210,173,95,.08), transparent 70%),
+        radial-gradient(700px 360px at 80% 40%, rgba(210,173,95,.06), transparent 72%);
       opacity:.9;
       z-index:1;
     }
@@ -562,7 +563,7 @@
   </div>
 
   <script>
-    // (4) Dior-like shimmer: subtle + always works (updates CSS vars used by .shimmer layers)
+    // Dior-like shimmer: subtle + keeps gold from washing out
     (function(){
       const root = document.documentElement;
       const stage = document.getElementById('stage');
@@ -572,30 +573,27 @@
         const x = ((clientX - r.left) / r.width) * 100;
         const y = ((clientY - r.top) / r.height) * 100;
 
-        // clamp
         const cx = Math.max(0, Math.min(100, x));
         const cy = Math.max(0, Math.min(100, y));
 
         root.style.setProperty('--mx', cx.toFixed(2) + '%');
         root.style.setProperty('--my', cy.toFixed(2) + '%');
 
-        // keep luxe: strongest near hero, softer as it moves away
         const dx = Math.abs(cx - 52) / 52;
         const dy = Math.abs(cy - 20) / 60;
         const falloff = Math.min(1, (dx + dy) / 1.55);
-        const shine = 0.78 - falloff * 0.34; // ~0.44 to 0.78
+
+        // lower intensity to avoid "white gild"
+        const shine = 0.66 - falloff * 0.26; // ~0.40 to 0.66
         root.style.setProperty('--shine', shine.toFixed(2));
       }
 
-      // pointer
       window.addEventListener('pointermove', (e)=> setVars(e.clientX, e.clientY), {passive:true});
-      // touch
       window.addEventListener('touchmove', (t)=>{
         if(!t.touches || !t.touches[0]) return;
         setVars(t.touches[0].clientX, t.touches[0].clientY);
       }, {passive:true});
 
-      // initial tasteful position
       setVars(window.innerWidth * 0.55, window.innerHeight * 0.22);
     })();
 
