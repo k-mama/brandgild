@@ -1,15 +1,26 @@
 :root{
-  --bg:#0b1224;
-  --card:#0f1a33;
-  --text:#e6eefc;
-  --muted:#9fb0d0;
-  --line:rgba(255,255,255,.08);
+  /* Core */
+  --bg: #070B16;
+  --surface: rgba(255,255,255,.06);
+  --surface2: rgba(255,255,255,.085);
+  --border: rgba(255,255,255,.10);
 
-  --accent:#a78bfa;
-  --accent2:#6d7cff;
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.68);
+  --muted2: rgba(255,255,255,.52);
 
-  --radius-xl:28px;
-  --radius-lg:18px;
+  --accent: #a78bfa;
+  --accent2: #6d7cff;
 
-  --shadow-soft:0 20px 60px rgba(0,0,0,.45);
+  /* Radius */
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 28px;
+
+  /* Shadows */
+  --shadow1: 0 18px 60px rgba(0,0,0,.55);
+  --shadow2: 0 10px 30px rgba(0,0,0,.45);
+
+  /* Layout */
+  --maxw: 1040px;
 }
