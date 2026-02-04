@@ -1,26 +1,36 @@
 :root{
-  /* Core */
-  --bg: #070B16;
-  --surface: rgba(255,255,255,.06);
-  --surface2: rgba(255,255,255,.085);
-  --border: rgba(255,255,255,.10);
+  /* Base */
+  --bg: #070A14;                 /* deeper ink */
+  --bg2:#050812;
 
+  /* Surfaces (glass) */
+  --surface: rgba(255,255,255,.055);
+  --surface2: rgba(255,255,255,.085);
+  --border: rgba(255,255,255,.12);
+  --edge: rgba(255,255,255,.22); /* top highlight line */
+
+  /* Text */
   --text: rgba(255,255,255,.92);
-  --muted: rgba(255,255,255,.68);
+  --muted: rgba(255,255,255,.70);
   --muted2: rgba(255,255,255,.52);
 
-  --accent: #a78bfa;
-  --accent2: #6d7cff;
+  /* Accents (luxury violet + cool blue) */
+  --accent: #B9A1FF;
+  --accent2:#6E7DFF;
 
-  /* Radius */
-  --r-sm: 12px;
+  /* Radii */
+  --r-sm: 14px;
   --r-md: 18px;
-  --r-lg: 28px;
+  --r-lg: 30px;
 
   /* Shadows */
-  --shadow1: 0 18px 60px rgba(0,0,0,.55);
-  --shadow2: 0 10px 30px rgba(0,0,0,.45);
+  --shadow1: 0 22px 80px rgba(0,0,0,.62);
+  --shadow2: 0 12px 40px rgba(0,0,0,.52);
 
   /* Layout */
-  --maxw: 1040px;
+  --maxw: 1120px;
+
+  /* Effects */
+  --glow1: rgba(185,161,255,.22);
+  --glow2: rgba(110,125,255,.16);
 }
