@@ -368,37 +368,40 @@
       font-size: 15px;
       letter-spacing: .2px;
 
-      background: var(--goldGrad);
-      color: rgba(10, 12, 22, .92);
-      box-shadow: 0 18px 40px rgba(210,173,95,.18);
-      position: relative;
-      overflow: hidden;
-      transform: translateZ(0);
-    }
-    .btn::before{
-      content:"";
-      position:absolute;
-      inset: 1px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 55%);
-      pointer-events:none;
-      opacity:.55;
-    }
+      background: var(--goldGrad);   /* ✅ gild와 동일 */
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+/* 버튼 상단 satin 하이라이트 (Gild 느낌과 통일) */
+.btn::before{
+  content:"";
+  position:absolute;
+  inset: 1px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,0) 58%);
+  pointer-events:none;
+  opacity:.60;
+}
 
     /* Shimmer for button: screen + subtle */
     .btn .shimmer{
-      position:absolute;
-      inset:-60px -80px;
-      pointer-events:none;
-      background:
-        radial-gradient(300px 210px at var(--mx) var(--my),
-          rgba(255,255,255, calc(var(--shine) * .50)) 0%,
-          rgba(255,255,255, calc(var(--shine) * .16)) 30%,
-          rgba(255,255,255, 0) 65%);
-      mix-blend-mode: screen;
-      filter: blur(2px);
-      opacity:.55;
-    }
+  position:absolute;
+  inset:-70px -90px;
+  pointer-events:none;
+
+  /* ✅ 더 밝게: btnGlow 반영 */
+  background:
+    radial-gradient(320px 220px at var(--mx) var(--my),
+      rgba(255,255,255, calc(var(--btnGlow) * .90)) 0%,
+      rgba(255,255,255, calc(var(--btnGlow) * .28)) 28%,
+      rgba(255,255,255, 0) 62%);
+  mix-blend-mode: screen;
+  filter: blur(1.5px);
+  opacity:.78;
+}
+
 
     .btn:hover{ filter: brightness(1.02); transform: translateY(-1px); }
     .btn:active{ transform: translateY(0px); }
@@ -600,11 +603,23 @@
 
         const dx = Math.abs(cx - 52) / 52;
         const dy = Math.abs(cy - 20) / 60;
-        const falloff = Math.min(1, (dx + dy) / 1.55);
+        
+        //const falloff = Math.min(1, (dx + dy) / 1.55);
 
         // lower intensity to avoid "white gild"
-        const shine = 0.66 - falloff * 0.26; // ~0.40 to 0.66
-        root.style.setProperty('--shine', shine.toFixed(2));
+        //const shine = 0.66 - falloff * 0.26; // ~0.40 to 0.66
+        //root.style.setProperty('--shine', shine.toFixed(2));
+        
+        const falloff = Math.min(1, (dx + dy) / 1.55);
+
+// 로고는 은은하게
+const logoGlow = 0.58 - falloff * 0.22;   // ~0.36~0.58
+root.style.setProperty('--logoGlow', logoGlow.toFixed(2));
+
+// 버튼은 더 밝게 (요구 #3)
+const btnGlow = 0.92 - falloff * 0.26;    // ~0.66~0.92
+root.style.setProperty('--btnGlow', btnGlow.toFixed(2));
+
       }
 
       window.addEventListener('pointermove', (e)=> setVars(e.clientX, e.clientY), {passive:true});
