@@ -26,20 +26,20 @@
       padding:64px 18px;
     }
 
-      .logo{
-  margin:20px 0 10px;
-  font-size:64px;
-  letter-spacing:-1.6px;
-  line-height:1.02;
-  font-weight:900;
-}
+  .logo{
+    margin:20px 0 10px;
+    font-size:64px;
+    letter-spacing:-1.6px;
+    line-height:1.02;
+    font-weight:900;
+  }
 
-.logo span{
-  display:inline-block;
-  color: var(--text);
-  /* 텍스트가 더 “광택”나 보이게 */
-  text-shadow: 0 10px 30px rgba(0,0,0,.10);
-}
+  .logo span{
+    display:inline-block;
+    color: var(--text);
+    /* 텍스트가 더 “광택”나 보이게 */
+    text-shadow: 0 10px 30px rgba(0,0,0,.10);
+  }
 
 /* “레인보우”가 아니라 “미세한 스펙트럼 쉬프트” */
 .logo span:nth-child(1){ color: rgba(109,94,252,1); }
@@ -230,7 +230,11 @@
       <div class="inner">
         <div class="pill">Invite-only early access • <b>Brand</b> → <b>Launch</b> → <b>Growth</b></div>
 
-        <h1>BrandGild</h1>
+        <h1 class="logo" aria-label="BrandGild">
+          <span>B</span><span>r</span><span>a</span><span>n</span><span>d</span>
+          <span>G</span><span>i</span><span>l</span><span>d</span>
+        </h1>
+
 
         <p class="sub">
           A premium Brand-to-Launch OS for solo founders who need a site, a product page, and a visual identity
