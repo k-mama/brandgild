@@ -27,13 +27,11 @@
       width:min(920px, 100%);
     }
     .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:54px 38px 42px;
-      box-shadow:0 24px 80px rgba(0,0,0,.40);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
+
+
     h1{
       font-size:56px;
       margin:0 0 14px;
@@ -105,17 +103,12 @@
     }
     input::placeholder{ color:rgba(159,176,208,.75); }
 
-    button{
-      padding:16px 18px;
-      border:none;
-      border-radius:14px;
-      background:linear-gradient(135deg, var(--accent), var(--accent2));
-      color:#0b1224;
-      font-weight:800;
-      cursor:pointer;
-      font-size:16px;
-      min-width:190px;
+    button, .btn, .cta{
+      background: var(--accent);
+      color: #0b1224;
+      border-radius: var(--radius-lg);
     }
+
     button:hover{ filter:brightness(1.06); }
 
     .note{
