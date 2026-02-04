@@ -15,30 +15,25 @@
 
   <style>
     :root{
-      /* ===== Override tokens.css here (so you don't have to touch tokens.css) ===== */
       --ink:#0b1220;
       --ink2:#070c16;
 
-      /* Skin-glow paper (lighter, more "skin sheen") */
-      --paper:#fffaf1;
-      --paper2:#f7efdf;
-      --paper3:#fffefb;
+      /* skin-tone paper */
+      --paper:#fbf7f0;
+      --paper2:#f6efe2;
+      --paper3:#fffdf9;
 
-      /* GOLD: user-specified */
-      --gildFill:#a37e2c   //7f6921; //e1c773;          /* Gild fill */
-      --gildStroke:#7f6921;        /* chosen from your options (sleek, not too orange) */
+      /* Gild gold base (must match button right) */
+      --gild:#e1c773;
 
-      /* Button gold gradient (user-specified) */
-      --btnGoldL:#e5cf87;
-      --btnGoldR:#e1c773;
+      /* button gradient left -> right (as requested) */
+      --btnL:#e5cf87;
+      --btnR:#e1c773;
 
-      /* Shimmer highlight color (user-specified) */
-      --shine:#fef9eb;
+      /* shimmer beam color (not white) */
+      --beam:#fef9eb;
 
-      /* Shared */
       --border: rgba(16, 24, 40, .10);
-      --border2: rgba(16, 24, 40, .14);
-
       --text: #0b1220;
       --muted: rgba(11, 18, 32, .70);
       --muted2: rgba(11, 18, 32, .58);
@@ -61,80 +56,65 @@
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
 
-      /* Premium paper + subtle couture glow (skin sheen) */
+      /* couture paper + skin-glow */
       background:
-        radial-gradient(950px 540px at 18% 18%, rgba(225,199,115,.22), transparent 60%),
-        radial-gradient(900px 560px at 76% 36%, rgba(225,199,115,.14), transparent 62%),
-        radial-gradient(1200px 760px at 50% 0%, rgba(255,255,255,.86), transparent 58%),
-        linear-gradient(180deg, var(--paper) 0%, var(--paper2) 46%, #eef2f7 100%);
+        radial-gradient(900px 520px at 18% 18%, rgba(225,199,115,.12), transparent 60%),
+        radial-gradient(820px 520px at 78% 42%, rgba(229,207,135,.10), transparent 62%),
+        radial-gradient(1200px 760px at 50% 0%, rgba(255,255,255,.82), transparent 58%),
+        linear-gradient(180deg, var(--paper) 0%, var(--paper2) 44%, #eef2f7 100%);
 
       display:flex;
       justify-content:center;
       padding:64px 18px;
-      position: relative;
-      overflow-x:hidden;
-    }
-
-    /* Dior-like micro grain (paper texture) */
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      pointer-events:none;
-      opacity: .10;
-      mix-blend-mode: multiply;
-      background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .55 0'/></filter><rect width='220' height='220' filter='url(%23n)' opacity='.55'/></svg>");
-      background-size: 220px 220px;
     }
 
     .wrap{ width:min(var(--maxw), 100%); }
 
-    /* Main stage card */
     .stage{
-      border: 1px solid rgba(255,255,255,.58);
+      border: 1px solid rgba(255,255,255,.55);
       border-radius: var(--r-xl);
       overflow:hidden;
       box-shadow: var(--shadowSoft);
 
       background:
-        radial-gradient(1200px 520px at 30% 10%, rgba(255,255,255,.92), rgba(255,255,255,.58) 55%, rgba(255,255,255,.18) 100%),
-        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.66));
+        radial-gradient(1200px 520px at 30% 10%, rgba(255,255,255,.92), rgba(255,255,255,.58) 55%, rgba(255,255,255,.12) 100%),
+        linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,255,255,.62));
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      position: relative;
+
+      position:relative;
     }
 
-    /* Extra subtle grain inside stage only (adds "skin glow" realism) */
-    .stage::after{
+    /* subtle paper grain across the stage (Dior product photo vibe) */
+    .stage::before{
       content:"";
       position:absolute;
       inset:0;
       pointer-events:none;
-      opacity:.06;
+      opacity:.18;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(0,0,0,.06) 0 1px, transparent 1.2px) 0 0 / 22px 22px,
+        radial-gradient(circle at 70% 60%, rgba(0,0,0,.04) 0 1px, transparent 1.2px) 0 0 / 26px 26px,
+        radial-gradient(circle at 40% 80%, rgba(0,0,0,.03) 0 1px, transparent 1.2px) 0 0 / 28px 28px;
       mix-blend-mode:multiply;
-      background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><filter id='n2'><feTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .42 0'/></filter><rect width='180' height='180' filter='url(%23n2)' opacity='.6'/></svg>");
-      background-size: 180px 180px;
     }
 
-    /* Top (paper) / Bottom (ink) split */
     .top{
       padding: 42px 46px 28px;
       position:relative;
-      z-index: 1;
+      z-index:1;
     }
+
     .bottom{
       padding: 22px 46px 30px;
       background:
-        radial-gradient(900px 420px at 50% -10%, rgba(225,199,115,.12), transparent 60%),
+        radial-gradient(900px 420px at 50% -10%, rgba(225,199,115,.10), transparent 60%),
         linear-gradient(180deg, #0c1424 0%, #070d18 100%);
       color: rgba(255,255,255,.86);
       position:relative;
-      z-index: 1;
+      z-index:1;
     }
 
-    /* Pill */
     .pill{
       display:inline-flex;
       align-items:center;
@@ -150,7 +130,6 @@
     }
     .pill b{ color: rgba(11,18,32,.92); font-weight:700; }
 
-    /* Hero title */
     .hero{
       margin-top: 26px;
       display:grid;
@@ -159,6 +138,46 @@
       align-items:start;
     }
 
+    /* === WORDMARK: ONE "invisible capsule" containing Brand Gild === */
+    .wordmarkCapsule{
+      position:relative;
+      display:inline-flex;
+      align-items:baseline;
+      gap: 12px;
+      padding: 10px 14px 12px;
+
+      /* No border, no obvious button UI */
+      border:none;
+      outline:none;
+      background: transparent;
+      box-shadow:none;
+
+      /* shimmer coords */
+      --mx: 50%;
+      --my: 50%;
+    }
+
+    /* shimmer lives ONLY inside this capsule (not around it) */
+    .wordmarkCapsule::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+      transition: opacity .18s ease;
+
+      /* bright beam that clearly moves */
+      background:
+        radial-gradient(220px 140px at var(--mx) var(--my),
+          rgba(254,249,235,.80),
+          rgba(254,249,235,.34) 36%,
+          rgba(254,249,235,0) 70%
+        );
+      mix-blend-mode: screen;
+    }
+    .wordmarkCapsule:hover::before{ opacity:1; }
+
+    /* the actual H1 layout */
     h1{
       margin: 0 0 10px;
       font-family: "Bodoni Moda", serif;
@@ -166,243 +185,55 @@
       font-size: clamp(54px, 7vw, 88px);
       letter-spacing: -1.2px;
       line-height: .95;
+      color: var(--ink);
       text-rendering: geometricPrecision;
-      display: inline-block;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Bring Brand + Gild closer (no "breakup") */
-    /* ✅ 2) 아래 CSS를 기존 <style> 안에 추가/교체 (wordmark 관련) */
+    .wmBrand{
+      position:relative;
+      z-index:1;  /* above shimmer */
+      color: var(--ink);
+      text-shadow: 0 1px 0 rgba(255,255,255,.60);
+    }
 
-/* wordmark 레이아웃: Brand와 Gild를 다시 붙여 보이게 */
-.wordmark{
-  display:flex;
-  align-items:baseline;
-  gap: 10px;              /* ← Brand/Gild 붙이기 */
-  flex-wrap:wrap;
-}
+    /* Gild: no stroke (to prevent color-mixing), fill matches button right */
+    .wmGild{
+      position:relative;
+      z-index:1;  /* above shimmer */
 
-/* 캡슐(투명 버튼) 공통 */
-.wmchip{
-  position:relative;
-  display:inline-block;
-  padding: 10px 16px 12px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(11,18,32,.10);
-  box-shadow: 0 18px 40px rgba(11,18,32,.08);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  overflow:hidden;
+      /* exact fill */
+      color: var(--gild);
 
-  /* Dior-스러운 아주 미세한 종이/그레인 */
-  background-image:
-    radial-gradient(1200px 400px at 20% 0%, rgba(255,255,255,.40), rgba(255,255,255,.10) 55%, rgba(255,255,255,.00) 100%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,.020) 0 1px, rgba(0,0,0,.010) 1px 2px);
-
-  /* shimmer 좌표 변수 */
-  --mx: 50%;
-  --my: 50%;
-}
-
-/* 텍스트는 “버튼 안에 쓴 것”처럼: 디올-애플 믹스 */
-.wmchip{
-  font-family: "Bodoni Moda", serif;
-  font-weight: 650;
-  letter-spacing: -1.1px;
-  line-height: .95;
-  font-size: clamp(52px, 6.6vw, 86px);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
-}
-
-/* Brand: 잉크 단색(엠보스/음각 없음) */
-.wmchip-brand{
-  color: var(--ink);
-}
-
-/* Gild: 골드 컬러(텍스트 색은 #e1c773 기반) + 미세 브러시 결 “텍스트 내부에만” */
-.wmchip-gild{
-  /* 기본 골드 */
-  color: #e1c773;
-
-  /* 얇은 테두리(원하면 끄기 가능) */
-  -webkit-text-stroke: 0.6px rgba(127,105,33,.60); /* #7f6921 계열 */
-
-  /* 텍스트 내부 브러시 결: 아주 미세하게 */
-  background-image:
-    /* 1) 미세 브러시 결 */
-    repeating-linear-gradient(
-      115deg,
-      rgba(255,255,255,.08) 0 1px,
-      rgba(0,0,0,.06) 1px 2px
-    ),
-    /* 2) 금속 하이라이트 아주 약하게 */
-    linear-gradient(180deg, rgba(254,249,235,.35), rgba(225,199,115,.00) 65%);
-
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  /* “탁한 구름” 방지: 텍스트 주변이 아니라 글자 안에서만 */
-  filter: saturate(1.05) contrast(1.05);
-}
-
-/* ✅ 캡슐 내부에서만 움직이는 shimmer (Brand/Gild 둘 다 적용) */
-.wmchip::before{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  pointer-events:none;
-
-  /* 빛 컬러: #fef9eb */
-  background:
-    radial-gradient(220px 160px at var(--mx) var(--my),
-      rgba(254,249,235,.55),
-      rgba(254,249,235,.18) 40%,
-      rgba(254,249,235,0) 70%
-    );
-
-  /* 캡슐 내부만 */
-  mix-blend-mode: screen;
-  opacity: .0;
-  transition: opacity .18s ease;
-}
-
-/* hover 시 shimmer 보이기 */
-.wmchip:hover::before{
-  opacity: 1;
-}
-
-/* 캡슐이 너무 “버튼 같다” 싶으면 테두리/배경만 살짝 덜기 */
-.wmchip{
-  /* 필요시 아래 2개만 조절하면 됨 */
-  /* background: rgba(255,255,255,.12); */
-  /* border: 1px solid rgba(11,18,32,.08); */
-}
-
-
-    /* Brand = deboss / pressed (emboss-press / 음각 느낌) */
-    .wordmark .brand{
-      color: rgba(11,18,32,.95);
-      position: relative;
-      /* pressed illusion: light highlight + inner dark */
+      /* ultra-subtle depth without changing hue */
       text-shadow:
-        0 1px 0 rgba(255,255,255,.85),
-        0 -1px 0 rgba(0,0,0,.06),
-        0 10px 22px rgba(11,18,32,.06);
-      filter: saturate(1.02);
-    }
-    /* optional subtle inset edge */
-    .wordmark .brand::after{
-      content: attr(data-text);
-      position:absolute;
-      inset:0;
-      color: transparent;
-      -webkit-text-stroke: 0.6px rgba(255,255,255,.55);
-      text-shadow: none;
-      pointer-events:none;
-      mix-blend-mode: soft-light;
-    }
+        0 1px 0 rgba(255,255,255,.35);
 
-    /* Gild = raised metal (양각) + micro brushed texture INSIDE text only */
-    .wordmark .gild{
-      --mx: 50%;
-      --my: 35%;
-      position: relative;
-      display:inline-block;
-
-      /* base fill */
-      color: var(--gildFill);
-
-      /* crisp luxury outline */
-      -webkit-text-stroke: 1px var(--gildStroke);
-
-      /* subtle lifted bevel */
-      text-shadow:
-        0 1px 0 rgba(255,255,255,.70),
-        0 10px 22px rgba(11,18,32,.10);
-
-      /* make it feel "hardware" */
-      filter: saturate(1.06) contrast(1.06);
-    }
-
-    /* Brushed-metal grain INSIDE text only via background-clip */
-    .wordmark .gild.brushed{
+      /* micro metal brush texture INSIDE text only */
       background-image:
-        /* soft metal shading (very subtle) */
-        linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0) 38%, rgba(0,0,0,.08) 100%),
-        /* micro brushed lines */
-        repeating-linear-gradient(115deg,
-          rgba(255,255,255,.22) 0px,
-          rgba(255,255,255,.22) 1px,
-          rgba(255,255,255,0) 3px,
-          rgba(255,255,255,0) 7px),
-        /* ultra subtle noise */
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .35 0'/></filter><rect width='240' height='240' filter='url(%23m)' opacity='.45'/></svg>");
-      background-size: 100% 100%, auto, 240px 240px;
-      background-blend-mode: overlay, overlay, soft-light;
-
+        repeating-linear-gradient(
+          115deg,
+          rgba(254,249,235,.16) 0 1px,
+          rgba(0,0,0,.08) 1px 2px
+        );
       -webkit-background-clip: text;
       background-clip: text;
-
-      /* keep the base fill color driving the metal */
       color: transparent;
-    }
-    /* Restore the stroke when color is transparent */
-    .wordmark .gild.brushed{
-      -webkit-text-stroke: 1px var(--gildStroke);
-    }
 
-    /* Shimmer highlight INSIDE text only (mouse-follow) */
-    .shimmerText{
-      --mx: 50%;
-      --my: 35%;
+      /* force the perceived gold by overlaying base gold under the brush */
+      /* (keeps the hue consistent with button right) */
     }
-    .shimmerText::before{
+    .wmGild::after{
       content:"";
       position:absolute;
-      inset: -6px; /* tight so it doesn't look like a cloud */
+      inset:0;
       pointer-events:none;
-      opacity: .0;
-      transition: opacity .18s ease;
-
-      background:
-        radial-gradient(
-          160px 120px at var(--mx) var(--my),
-          rgba(254,249,235,.85),
-          rgba(254,249,235,.22) 42%,
-          rgba(254,249,235,0) 72%
-        );
-      mix-blend-mode: screen;
-
-      /* clip to text (fill only) */
-      -webkit-mask-image: linear-gradient(#000, #000);
-      mask-image: linear-gradient(#000, #000);
-    }
-    /* clip shimmer to glyphs */
-    .shimmerText.shimmerClip::before{
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* For brushed text we already use background-clip: text, so we overlay shimmer with masking */
-    .wordmark .gild.shimmerText::before{
-      -webkit-mask-image: none;
-      mask-image: none;
-      -webkit-background-clip: text;
-      background-clip: text;
-    }
-
-    /* Show shimmer on hover / active move */
-    .shimmerOn::before{ opacity: .95; }
-
-    .kicker{
-      margin: 0 0 18px;
-      font-size: 18px;
-      line-height: 1.55;
-      color: var(--muted);
-      max-width: 62ch;
+      background: var(--gild);
+      -webkit-mask: linear-gradient(#000,#000);
+      mask: linear-gradient(#000,#000);
+      mix-blend-mode: multiply;
+      opacity: 1;
+      z-index:-1;
     }
 
     .headline{
@@ -414,6 +245,14 @@
       line-height: 1.25;
     }
 
+    .kicker{
+      margin: 0 0 18px;
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
     .lede{
       margin: 0;
       color: var(--muted);
@@ -421,17 +260,17 @@
       line-height: 1.7;
     }
 
-    /* Feature cards */
     .features{
       margin-top: 28px;
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
+
     .feature{
-      border: 1px solid rgba(11,18,32,.10);
+      border: 1px solid rgba(11,18,32,.08);
       border-radius: 20px;
-      background: rgba(255,255,255,.80);
+      background: rgba(255,255,255,.86);
       box-shadow: var(--shadowCard);
       padding: 18px 18px 16px;
       position: relative;
@@ -457,31 +296,6 @@
       line-height: 1.55;
     }
 
-    /* Luxury thin-line icons (not childish) */
-    .iconBox{
-      position:absolute;
-      top: 16px;
-      right: 16px;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.70);
-      display:grid;
-      place-items:center;
-      box-shadow: 0 10px 18px rgba(11,18,32,.06);
-    }
-    .iconBox svg{
-      width: 18px;
-      height: 18px;
-      stroke: rgba(11,18,32,.72);
-      stroke-width: 1.4;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* Meaningful chips */
     .chips{
       display:flex;
       flex-wrap:wrap;
@@ -493,11 +307,10 @@
       padding: 7px 10px;
       border-radius: 999px;
       border: 1px solid rgba(11,18,32,.10);
-      background: rgba(255,255,255,.72);
+      background: rgba(255,255,255,.78);
       color: rgba(11,18,32,.70);
     }
 
-    /* Bottom CTA */
     .ctaRow{
       display:grid;
       grid-template-columns: 1fr 260px;
@@ -505,6 +318,7 @@
       align-items:center;
       margin-top: 18px;
     }
+
     .input{
       height: 54px;
       border-radius: 999px;
@@ -517,13 +331,9 @@
     }
     .input::placeholder{ color: rgba(255,255,255,.42); }
 
-    /* Button: gradient matches the Gild family, with STRONG visible shimmer on mouse */
+    /* === BUTTON: gradient must match (L->R), shimmer must be obvious === */
     .btn{
-      --mx: 50%;
-      --my: 35%;
-      position: relative;
-      overflow:hidden;
-
+      position:relative;
       height: 54px;
       border: 0;
       border-radius: 999px;
@@ -531,51 +341,36 @@
       font-weight: 800;
       font-size: 15px;
       letter-spacing: .2px;
-
-      background: linear-gradient(90deg, var(--btnGoldL), var(--btnGoldR));
       color: rgba(10, 12, 22, .92);
 
-      box-shadow:
-        0 18px 40px rgba(225,199,115,.18),
-        inset 0 1px 0 rgba(255,255,255,.55),
-        inset 0 -1px 0 rgba(0,0,0,.10);
+      background: linear-gradient(90deg, var(--btnL), var(--btnR));
+      box-shadow: 0 18px 40px rgba(225,199,115,.18);
 
-      transform: translateZ(0);
+      overflow:hidden;
+
+      --mx: 50%;
+      --my: 50%;
     }
 
-    /* brighter, more obvious moving light (NOT white: uses #fef9eb) */
     .btn::before{
       content:"";
       position:absolute;
-      inset:-40px;
+      inset:-60%;
       pointer-events:none;
-      opacity: 0;
-      transition: opacity .18s ease;
+      opacity:.0;
+      transition: opacity .14s ease;
 
       background:
-        radial-gradient(
-          220px 160px at var(--mx) var(--my),
-          rgba(254,249,235,.92),
-          rgba(254,249,235,.34) 40%,
-          rgba(254,249,235,0) 72%
+        radial-gradient(260px 170px at var(--mx) var(--my),
+          rgba(254,249,235,.95),
+          rgba(254,249,235,.48) 35%,
+          rgba(254,249,235,0) 70%
         );
-      mix-blend-mode: screen;
-      filter: blur(.2px);
+      mix-blend-mode: soft-light;
     }
+    .btn:hover::before{ opacity:1; }
 
-    .btn::after{
-      /* subtle top edge glint */
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,0) 48%);
-      opacity:.55;
-    }
-
-    .btn.shimmerOn::before{ opacity: 1; }
-
-    .btn:hover{ filter: brightness(1.02); transform: translateY(-1px); }
+    .btn:hover{ transform: translateY(-1px); filter: saturate(1.02) brightness(1.02); }
     .btn:active{ transform: translateY(0px); }
 
     .note{
@@ -605,17 +400,13 @@
     }
     .links a:hover{ color: rgba(255,255,255,.86); }
 
-    /* Responsive */
     @media (max-width: 980px){
       .top{ padding: 34px 20px 22px; }
       .bottom{ padding: 20px 20px 24px; }
-
       .hero{ grid-template-columns: 1fr; }
       .features{ grid-template-columns: 1fr; }
-
       .ctaRow{ grid-template-columns: 1fr; }
       .btn{ width:100%; }
-
       .footerRow{ flex-direction:column; align-items:flex-start; }
     }
   </style>
@@ -631,12 +422,13 @@
 
         <div class="hero">
           <div>
-            <!-- ✅ 1) H1 부분만 이렇게 교체 -->
-<h1 class="wordmark">
-  <span class="wmchip wmchip-brand" data-shimmer>Brand</span>
-  <span class="wmchip wmchip-gild" data-shimmer>Gild</span>
-</h1>
-
+            <h1>
+              <!-- ONE capsule, no visible border, no button vibe -->
+              <span class="wordmarkCapsule" data-shimmer="wordmark" aria-label="BrandGild">
+                <span class="wmBrand">Brand</span>
+                <span class="wmGild">Gild</span>
+              </span>
+            </h1>
 
             <p class="headline">The definitive Brand-to-Launch OS. <br/>Elevate your vision.</p>
 
@@ -656,16 +448,6 @@
 
         <div class="features">
           <article class="feature">
-            <div class="iconBox" aria-hidden="true">
-              <!-- sliders (thin-line, luxury) -->
-              <svg viewBox="0 0 24 24">
-                <path d="M4 7h10"></path><path d="M18 7h2"></path>
-                <path d="M4 17h2"></path><path d="M10 17h10"></path>
-                <path d="M14 7v0"></path>
-                <circle cx="16" cy="7" r="2"></circle>
-                <circle cx="8" cy="17" r="2"></circle>
-              </svg>
-            </div>
             <div class="idx">Module 01</div>
             <p class="t">Brand DNA</p>
             <p class="d">Lock tone, palette, rules, and positioning once — apply everywhere.</p>
@@ -677,15 +459,6 @@
           </article>
 
           <article class="feature">
-            <div class="iconBox" aria-hidden="true">
-              <!-- grid (thin-line) -->
-              <svg viewBox="0 0 24 24">
-                <rect x="5" y="5" width="6" height="6" rx="1.2"></rect>
-                <rect x="13" y="5" width="6" height="6" rx="1.2"></rect>
-                <rect x="5" y="13" width="6" height="6" rx="1.2"></rect>
-                <rect x="13" y="13" width="6" height="6" rx="1.2"></rect>
-              </svg>
-            </div>
             <div class="idx">Module 02</div>
             <p class="t">Asset System</p>
             <p class="d">Reusable page sections, CTAs, and visuals — assemble, don’t rebuild.</p>
@@ -697,13 +470,6 @@
           </article>
 
           <article class="feature">
-            <div class="iconBox" aria-hidden="true">
-              <!-- refresh (thin-line) -->
-              <svg viewBox="0 0 24 24">
-                <path d="M20 12a8 8 0 1 1-2.35-5.65"></path>
-                <path d="M20 4v6h-6"></path>
-              </svg>
-            </div>
             <div class="idx">Module 03</div>
             <p class="t">Launch Loop</p>
             <p class="d">Always-on marketing briefs + updates so your presence stays alive.</p>
@@ -719,7 +485,7 @@
       <div class="bottom">
         <form id="earlyAccessForm" class="ctaRow">
           <input id="email" class="input" type="email" required placeholder="Enter your email" />
-          <button type="submit" class="btn" data-shimmer="btn">Request an Invite</button>
+          <button type="submit" class="btn" data-shimmer="button">Request an Invite</button>
         </form>
 
         <div class="note">
@@ -740,7 +506,7 @@
   </div>
 
   <script>
-    // ====== mailto submit (no backend) ======
+    // No backend needed: opens user's email client with prefilled message
     document.getElementById('earlyAccessForm').addEventListener('submit', function(e){
       e.preventDefault();
       const email = document.getElementById('email').value.trim();
@@ -751,74 +517,25 @@
       window.location.href = `mailto:emmaestro123@gmail.com?subject=${subject}&body=${body}`;
     });
 
-    // ====== Dior-like shimmer that follows the pointer (Gild + Button) ======
-    // - confined to text/button itself (no cloudy background)
-    // - stronger visibility on button
+    // Shimmer coord driver for wordmark + button
     (function(){
-      const targets = Array.from(document.querySelectorAll('[data-shimmer]'));
-      if (!targets.length) return;
+      const els = document.querySelectorAll('[data-shimmer]');
+      const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
 
-      let raf = null;
-      let last = null;
-
-      function setVars(el, clientX, clientY){
-        const r = el.getBoundingClientRect();
-        const x = ((clientX - r.left) / r.width) * 100;
-        const y = ((clientY - r.top) / r.height) * 100;
-        // clamp
-        const cx = Math.max(0, Math.min(100, x));
-        const cy = Math.max(0, Math.min(100, y));
-        el.style.setProperty('--mx', cx.toFixed(2) + '%');
-        el.style.setProperty('--my', cy.toFixed(2) + '%');
-      }
-
-      function onMove(e){
-        last = e;
-        if (raf) return;
-        raf = requestAnimationFrame(() => {
-          raf = null;
-          if (!last) return;
-          targets.forEach(el => setVars(el, last.clientX, last.clientY));
-          // show shimmer while moving
-          targets.forEach(el => el.classList.add('shimmerOn'));
+      els.forEach(el=>{
+        el.addEventListener('mousemove', (e)=>{
+          const r = el.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width) * 100;
+          const y = ((e.clientY - r.top) / r.height) * 100;
+          el.style.setProperty('--mx', clamp(x,0,100) + '%');
+          el.style.setProperty('--my', clamp(y,0,100) + '%');
         });
-      }
-
-      function onLeave(){
-        targets.forEach(el => el.classList.remove('shimmerOn'));
-      }
-
-      window.addEventListener('pointermove', onMove, { passive: true });
-      window.addEventListener('pointerdown', onMove, { passive: true });
-      window.addEventListener('pointerleave', onLeave, { passive: true });
-      window.addEventListener('blur', onLeave);
+        el.addEventListener('mouseleave', ()=>{
+          el.style.setProperty('--mx','50%');
+          el.style.setProperty('--my','50%');
+        });
+      });
     })();
-
-    /* ✅ 3) 아래 JS를 기존 <script> 맨 아래에 추가 (버튼/로고 공용으로 사용 가능) */
-(function(){
-  const targets = document.querySelectorAll('[data-shimmer], .btn');
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-  targets.forEach(el => {
-    el.addEventListener('mousemove', (e) => {
-      const r = el.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width) * 100;
-      const y = ((e.clientY - r.top) / r.height) * 100;
-      el.style.setProperty('--mx', clamp(x, 0, 100) + '%');
-      el.style.setProperty('--my', clamp(y, 0, 100) + '%');
-    });
-
-    el.addEventListener('mouseenter', () => {
-      el.style.willChange = 'transform';
-    });
-
-    el.addEventListener('mouseleave', () => {
-      el.style.setProperty('--mx', '50%');
-      el.style.setProperty('--my', '50%');
-    });
-  });
-})();
-
   </script>
 </body>
 </html>
