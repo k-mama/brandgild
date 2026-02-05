@@ -175,7 +175,7 @@
       }
 */
 
-.wmGild{
+    .wmGild{
   position:relative;
   display:inline-block;
   line-height:1;
@@ -259,57 +259,6 @@
 }
 
 
-/* (B) '빛' 레이어: 텍스트 안에서만 움직임 */
-.wmGild::before{
-  content: attr(data-text);
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-
-  /* 빛이 확실히 보이도록: 중앙이 강하고 가장자리로 자연스럽게 사라짐 */
-  background: radial-gradient(
-    180px 60px at var(--mx, 50%) var(--my, 50%),
-    rgba(252,244,217,.95) 0%,
-    rgba(252,244,217,.55) 35%,
-    rgba(252,244,217,0) 70%
-  );
-
-  -webkit-background-clip:text;
-  background-clip:text;
-
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-
-  /* 너무 튀지 않게, 근데 확실히 보이게 */
-  opacity: .65;
-  mix-blend-mode: screen;
-}
-
-    
-
-/* 로고 shine: 약하게 */
-.wmGild::after{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  pointer-events:none;
-
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color: transparent;
-
-  background:
-    radial-gradient(
-      220px 120px at var(--hx, 50%) var(--hy, 50%),   /* (1) 크기 ↑ */
-      rgba(252,244,217,.50),                          /* (2) 중심 밝기 ↑   ~72*/
-      rgba(252,244,217,.15) 46%,                      /* (3) 중간 농도  값이 올라가면 빛이 더 두껍고 넓게 퍼져보임 15 - 22 */
-      rgba(252,244,217,0) 76%                         /* (3) 끝 지점 */
-    );
-
-  opacity: .75;                /* (2) 전체 강도  75 - 78 */
-  mix-blend-mode: screen;      /* (4) 가장 ‘골드 위 빛’ 같음 */
-  
-}
     
     .headline{
       margin: 0 0 12px;
