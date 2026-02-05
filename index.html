@@ -178,27 +178,86 @@
 .wmGild{
   position:relative;
   display:inline-block;
+  line-height:1;
+  isolation:isolate; /* 블렌딩/레이어 안정화 */
 
-  /* (A) 더 진한 골드 베이스 */
-  --gBase:#d8b84e;          /* <- 여기 더 진하게 시작 */
-  --gDeep:#b88f1f;          /* 음영 */
-  --gLight:#f1de9a;         /* 하이라이트 */
-  --shine:#fcf4d9;          /* 요청한 연한 노랑 빛 */
+  /* 요청: 더 진한 골드 */
+  --gBase:#e1c773;
+  --gDeep:#b8922a;
+  --gLight:#f3e3aa;
 
-  /* 텍스트는 '골드 베이스'로만 보이게 */
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  /* 빛 색: 로고는 #fcf4d9 (버튼보다 약하게 쓸거면 opacity로 제어) */
+  --shine:#fcf4d9;
 
-  background: linear-gradient(180deg, var(--gLight) 0%, var(--gBase) 55%, var(--gDeep) 100%);
+  /* 마우스 좌표(기본값) */
+  --mx:55%;
+  --my:45%;
+
+  /* 베이스 골드 */
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+
+  background: linear-gradient(180deg, var(--gLight) 0%, var(--gBase) 58%, var(--gDeep) 100%);
   -webkit-background-clip:text;
   background-clip:text;
 
-  /* 살짝 또렷 */
-  text-shadow: 0 1px 0 rgba(255,255,255,.35);
-
-  /* 브러시 결(텍스트 내부에만) */
-  filter: saturate(1.05) contrast(1.03);
+  /* 약간 또렷 */
+  text-shadow: 0 1px 0 rgba(255,255,255,.28);
 }
+
+/* (A) 미세 메탈 브러시 결: 텍스트 내부에만 */
+.wmGild::after{
+  content: attr(data-text);
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  /* 결: 아주 미세하게, 종이결/브러시 느낌 */
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,.14) 0px,
+      rgba(255,255,255,.14) 1px,
+      rgba(0,0,0,0) 3px,
+      rgba(0,0,0,0) 7px
+    );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+
+  opacity:.28;               /* 결 강도(고급스럽게 = 0.18~0.32 추천) */
+  mix-blend-mode: overlay;    /* 메탈처럼 섞이게 */
+}
+
+/* (B) 움직이는 빛: 텍스트 내부에서만, 마우스 따라 이동 */
+.wmGild::before{
+  content: attr(data-text);
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  /* 핵심: var(--mx) var(--my)를 실제로 사용 */
+  background: radial-gradient(
+    140px 50px at var(--mx) var(--my),
+    rgba(252,244,217,.92) 0%,
+    rgba(252,244,217,.48) 35%,
+    rgba(252,244,217,0) 70%
+  );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+
+  /* 로고는 버튼보다 약하게 */
+  opacity:.55;               /* 로고 빛 강도(0.45~0.65) */
+  mix-blend-mode: screen;
+}
+
 
 /* (B) '빛' 레이어: 텍스트 안에서만 움직임 */
 .wmGild::before{
@@ -227,47 +286,6 @@
 }
 
     
-    /* micro metal brush + moving shine (clipped to text) */
-    .wmGild::before{
-      content:"";
-      position:absolute; inset:-8px;
-      pointer-events:none;
-
-      /* highlight center = global mouse */
-      --hx: calc(var(--mx) * 100%);
-      --hy: calc(var(--my) * 100%);
-
-      background:
-        /* moving shine */
-        radial-gradient(220px 140px at var(--hx) var(--hy),
-          rgba(254,249,235,.85),
-          rgba(254,249,235,.22) 40%,
-          rgba(254,249,235,0) 70%),
-
-        /* 로고(Gild) 빛 더 강하게: .wmGild::before의 radial-gradient에서 첫 번째 rgba(...,.85)를 .95로 */
-        /* 버튼 빛 더 또렷하게: .btn::before의 opacity: .95를 1로, 그리고 radial-gradient 사이즈 220px 160px를 260px 180px로 */
-        /* 너무 튀지 않게, 근데 확실히 보이는 최적값 */
-      
-        
-        /* micro brush grain */
-        repeating-linear-gradient(115deg,
-          rgba(255,255,255,.16) 0px,
-          rgba(255,255,255,.16) 1px,
-          rgba(0,0,0,.06) 2px,
-          rgba(0,0,0,.06) 3px);
-
-      mix-blend-mode: soft-light;
-
-      /* clip to text only */
-      -webkit-mask: linear-gradient(#000, #000);
-      mask: linear-gradient(#000, #000);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-
-      filter: saturate(1.12) contrast(1.06);
-    }
-
 
 /* 로고 shine: 약하게 */
 .wmGild::after{
@@ -460,7 +478,7 @@
           <div>
             <div class="wordmarkWrap">
               <h1 class="wordmark" aria-label="BrandGild">
-                <span class="wmBrand">Brand</span><span class="wmGild" data-text="Gild">Gild</span>
+                 <span class="wmBrand">Brand</span><span class="wmGild" data-text="Gild">Gild</span>
               </h1>
             </div>
 
