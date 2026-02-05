@@ -11,6 +11,10 @@
 
   <style>
     :root{
+
+        --shineLogo: #fcf4d9; /* 로고용 연노랑 */
+        --shineBtn:  #fef9eb; /* 버튼용 (조금 더 밝아도 OK) */
+      
       --ink:#0b1220;
 
       /* skin paper */
@@ -138,20 +142,32 @@
 
     /* Gild: gold fill + micro brush + ALWAYS-on shimmer that follows mouse */
     .wmGild{
-      position:relative;
-      display:inline-block;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-      background:
-        /* base gold (flat-ish, no outline) */
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.04)),
-        linear-gradient(90deg, var(--goldFill), var(--goldFill));
-      -webkit-background-clip: text;
-      background-clip: text;
+        position:relative;
+        display:inline-block;
 
-      /* make sure it stays crisp */
-      text-shadow: 0 1px 0 rgba(255,255,255,.55);
-    }
+        /* 텍스트는 투명 + 배경클립으로만 보이게 */
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+
+        /* (본체 골드 + 미세 브러시 결) : 텍스트 내부만 */
+        background:
+          /* 미세 브러시 결(아주 약하게) */
+          repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,.11) 0px,
+            rgba(255,255,255,.11) 1px,
+            rgba(0,0,0,.06) 2px,
+            rgba(0,0,0,.06) 3px
+          ),
+          /* 골드 바탕(너가 지정한 #e1c773 중심) */
+          linear-gradient(90deg, #e5cf87 0%, #e1c773 55%, #d7b85a 100%);
+        -webkit-background-clip:text;
+        background-clip:text;
+
+        /* 가독성 보정(지저분해지지 않게 최소) */
+        text-shadow: 0 1px 0 rgba(255,255,255,.40);
+      }
+
 
     /* micro metal brush + moving shine (clipped to text) */
     .wmGild::before{
@@ -170,9 +186,9 @@
           rgba(254,249,235,.22) 40%,
           rgba(254,249,235,0) 70%),
 
-        //로고(Gild) 빛 더 강하게: .wmGild::before의 radial-gradient에서 첫 번째 rgba(...,.85)를 .95로
-        //버튼 빛 더 또렷하게: .btn::before의 opacity: .95를 1로, 그리고 radial-gradient 사이즈 220px 160px를 260px 180px로
-        //너무 튀지 않게, 근데 확실히 보이는 최적값
+        /* 로고(Gild) 빛 더 강하게: .wmGild::before의 radial-gradient에서 첫 번째 rgba(...,.85)를 .95로 */
+        /* 버튼 빛 더 또렷하게: .btn::before의 opacity: .95를 1로, 그리고 radial-gradient 사이즈 220px 160px를 260px 180px로 */
+        /* 너무 튀지 않게, 근데 확실히 보이는 최적값 */
       
         
         /* micro brush grain */
@@ -193,6 +209,29 @@
 
       filter: saturate(1.12) contrast(1.06);
     }
+
+
+/* 로고 shine: 약하게 */
+.wmGild::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  pointer-events:none;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color: transparent;
+
+  background:
+    radial-gradient(150px 95px at var(--hx, 50%) var(--hy, 50%),
+      rgba(252,244,217,.58),
+      rgba(252,244,217,.16) 44%,
+      rgba(252,244,217,0) 72%);
+
+  opacity:.70;
+  mix-blend-mode: screen;
+}
+    
 
     .headline{
       margin: 0 0 12px;
