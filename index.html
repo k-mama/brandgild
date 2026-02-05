@@ -11,10 +11,7 @@
 
   <style>
     :root{
-
-        --shineLogo: #fcf4d9; /* 로고용 연노랑 */
-        --shineBtn:  #fef9eb; /* 버튼용 (조금 더 밝아도 OK) */
-      
+      /* ink */
       --ink:#0b1220;
 
       /* skin paper */
@@ -25,11 +22,14 @@
       --goldFill:#e1c773; /* gild fill */
       --goldBtnL:#e5cf87;
       --goldBtnR:#e1c773;
-      --shine:#fef9eb;    /* moving light color */
+
+      /* shines */
+      --shineLogo:#fcf4d9; /* 로고용 연노랑 */
+      --shineBtn:#fef9eb;  /* 버튼용 */
 
       /* global mouse (0..1) */
-      --mx:.5;
-      --my:.35;
+      --mx:.55;
+      --my:.45;
 
       --shadowSoft: 0 18px 60px rgba(11,18,32,.12);
       --shadowCard: 0 16px 40px rgba(11,18,32,.10);
@@ -111,12 +111,12 @@
       align-items:start;
     }
 
-    /* ===== Wordmark (NO visible button border, but shimmer follows global mouse) ===== */
+    /* ===== Wordmark (BrandChild/Brand) + Gild ===== */
     .wordmarkWrap{
       display:inline-block;
       position:relative;
       border-radius: 999px;
-      padding: 6px 10px;    /* “button” area, but visually invisible */
+      padding: 6px 10px;   /* invisible hit area */
       background: transparent;
     }
     .wordmark{
@@ -130,151 +130,126 @@
       text-rendering: geometricPrecision;
       position:relative;
       display:inline-block;
+      user-select:none;
+      -webkit-user-select:none;
+      isolation:isolate;
     }
 
+    /* Brand side: subtle press (emboss) + shimmer follows global mouse */
     .wmBrand{
+      position:relative;
+      display:inline-block;
       color: var(--ink);
       margin-right: -0.1px; /* d와 G 자연스럽게 */
+
+      /* press 느낌(음각): 아주 미세하게만 */
       text-shadow:
-        0 1px 0 rgba(255,255,255,.70),
-        0 -1px 0 rgba(0,0,0,.06);
+        0 1px 0 rgba(255,255,255,.75),
+        0 -1px 0 rgba(0,0,0,.08),
+        0 10px 22px rgba(11,18,32,.08);
     }
 
-.wordmark, .wmBrand, .wmGild{
-  user-select: none;
-  -webkit-user-select: none;
-}
+    /* moving light on Brand text */
+    .wmBrand::before{
+      content: attr(data-text);
+      position:absolute;
+      inset:0;
+      pointer-events:none;
 
-    
-    /* Gild: gold fill + micro brush + ALWAYS-on shimmer that follows mouse */
-/*    .wmGild{
-/*        position:relative;
-/*        display:inline-block;
+      background: radial-gradient(
+        160px 56px at calc(var(--mx) * 100%) calc(var(--my) * 100%),
+        rgba(252,244,217,.55) 0%,
+        rgba(252,244,217,.20) 38%,
+        rgba(252,244,217,0) 72%
+      );
 
-        /* 텍스트는 투명 + 배경클립으로만 보이게 */
-/*        color: transparent;
-/*        -webkit-text-fill-color: transparent;
+      -webkit-background-clip:text;
+      background-clip:text;
 
-        /* (본체 골드 + 미세 브러시 결) : 텍스트 내부만 */
-/*        background:
-          /* 미세 브러시 결(아주 약하게) */
-/*          repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,.11) 0px,
-            rgba(255,255,255,.11) 1px,
-            rgba(0,0,0,.06) 2px,
-            rgba(0,0,0,.06) 3px
-          ),
-          /* 골드 바탕(너가 지정한 #e1c773 중심) */
- /*         linear-gradient(90deg, #e5cf87 0%, #e1c773 55%, #d7b85a 100%);
-        -webkit-background-clip:text;
-        background-clip:text;
-*/
-        /* 가독성 보정(지저분해지지 않게 최소) */
-/*        text-shadow: 0 1px 0 rgba(255,255,255,.40);
-      }
-*/
+      color:transparent;
+      -webkit-text-fill-color:transparent;
 
+      opacity:.55;
+      mix-blend-mode: screen;
+    }
+
+    /* Gild: gold fill + micro grain + always-on shimmer following global mouse */
     .wmGild{
-  position:relative;
-  display:inline-block;
-  line-height:1;
-  isolation:isolate; /* 블렌딩/레이어 안정화 */
+      position:relative;
+      display:inline-block;
+      line-height:1;
+      isolation:isolate;
 
-  /* 요청: 더 진한 골드 */
-  --gBase:#e1c773;
-  --gDeep:#b8922a;
-  --gLight:#f3e3aa;
+      color:transparent;
+      -webkit-text-fill-color:transparent;
 
-  /* 빛 색: 로고는 #fcf4d9 (버튼보다 약하게 쓸거면 opacity로 제어) */
-  --shine:#fcf4d9;
+      /* base gold + very light brush grain */
+      background:
+        repeating-linear-gradient(
+          115deg,
+          rgba(255,255,255,.09) 0px,
+          rgba(255,255,255,.09) 1px,
+          rgba(0,0,0,.05) 2px,
+          rgba(0,0,0,.05) 3px
+        ),
+        linear-gradient(90deg, #e5cf87 0%, #e1c773 55%, #d7b85a 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
 
-  /* 마우스 좌표(기본값) */
-  --mx:55%;
-  --my:45%;
+      /* prevent "cream-white" look */
+      filter: saturate(1.05) contrast(1.02);
+      text-shadow: 0 1px 0 rgba(255,255,255,.28);
+    }
 
-  /* 베이스 골드 */
-  color:transparent;
-  -webkit-text-fill-color:transparent;
+    /* micro metallic grain overlay (subtle) */
+    .wmGild::after{
+      content: attr(data-text);
+      position:absolute;
+      inset:0;
+      pointer-events:none;
 
-/*  background: linear-gradient(180deg, var(--gLight) 0%, var(--gBase) 58%, var(--gDeep) 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-*/
-  /* 약간 또렷 */
-/*  text-shadow: 0 1px 0 rgba(255,255,255,.28);
-*/
-              /* (본체 골드 + 미세 브러시 결) : 텍스트 내부만 */
-        background:
-          /* 미세 브러시 결(아주 약하게) */
-          repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,.11) 0px,
-            rgba(255,255,255,.11) 1px,
-            rgba(0,0,0,.06) 2px,
-            rgba(0,0,0,.06) 3px
-          ),
-          /* 골드 바탕(너가 지정한 #e1c773 중심) */
-          linear-gradient(90deg, #e5cf87 0%, #e1c773 55%, #d7b85a 100%);
-        -webkit-background-clip:text;
-        background-clip:text;
-}
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,.12) 0px,
+          rgba(255,255,255,.12) 1px,
+          rgba(0,0,0,0) 3px,
+          rgba(0,0,0,0) 7px
+        );
+      -webkit-background-clip:text;
+      background-clip:text;
 
-/* (A) 미세 메탈 브러시 결: 텍스트 내부에만 */
-.wmGild::after{
-  content: attr(data-text);
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+      color:transparent;
+      -webkit-text-fill-color:transparent;
 
-  /* 결: 아주 미세하게, 종이결/브러시 느낌 */
-/*  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(255,255,255,.14) 0px,
-      rgba(255,255,255,.14) 1px,
-      rgba(0,0,0,0) 3px,
-      rgba(0,0,0,0) 7px
-    );
+      opacity:.18;            /* 결 강도(0.14~0.24 권장) */
+      mix-blend-mode: overlay;
+    }
 
-  -webkit-background-clip:text;
-  background-clip:text;
+    /* moving light on Gild (always on) */
+    .wmGild::before{
+      content: attr(data-text);
+      position:absolute;
+      inset:0;
+      pointer-events:none;
 
-  color:transparent;
-  -webkit-text-fill-color:transparent;
-*/
-  opacity:.28;               /* 결 강도(고급스럽게 = 0.18~0.32 추천) */
-  mix-blend-mode: overlay;    /* 메탈처럼 섞이게 */
-}
+      background: radial-gradient(
+        130px 48px at calc(var(--mx) * 100%) calc(var(--my) * 100%),
+        rgba(252,244,217,.88) 0%,
+        rgba(252,244,217,.42) 38%,
+        rgba(252,244,217,0) 72%
+      );
 
-/* (B) 움직이는 빛: 텍스트 내부에서만, 마우스 따라 이동 */
-.wmGild::before{
-  content: attr(data-text);
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+      -webkit-background-clip:text;
+      background-clip:text;
 
-  /* 핵심: var(--mx) var(--my)를 실제로 사용 */
-  background: radial-gradient(
-    140px 50px at var(--mx) var(--my),
-    rgba(252,244,217,.92) 0%,
-    rgba(252,244,217,.48) 35%,
-    rgba(252,244,217,0) 70%
-  );
+      color:transparent;
+      -webkit-text-fill-color:transparent;
 
-  -webkit-background-clip:text;
-  background-clip:text;
+      opacity:.55;            /* 로고 빛 강도(살짝) */
+      mix-blend-mode: screen;
+    }
 
-  color:transparent;
-  -webkit-text-fill-color:transparent;
-
-  /* 로고는 버튼보다 약하게 */
-  opacity:.55;               /* 로고 빛 강도(0.45~0.65) */
-  mix-blend-mode: screen;
-}
-
-
-    
     .headline{
       margin: 0 0 12px;
       font-weight: 650;
@@ -373,9 +348,11 @@
       background: linear-gradient(90deg, var(--goldBtnL), var(--goldBtnR));
       color: rgba(10, 12, 22, .92);
       box-shadow: 0 18px 40px rgba(225,199,115,.20);
+      transform: translateY(0);
+      transition: transform .18s ease;
     }
 
-    /* stronger, easier-to-see moving light */
+    /* subtle moving light (premium, not flashy) */
     .btn::before{
       content:"";
       position:absolute; inset:-40px;
@@ -385,14 +362,14 @@
       --hy: calc(var(--my) * 100%);
 
       background:
-        radial-gradient(220px 160px at var(--hx) var(--hy),
-          rgba(254,249,235,.95),
-          rgba(254,249,235,.35) 42%,
-          rgba(254,249,235,0) 75%);
+        radial-gradient(200px 140px at var(--hx) var(--hy),
+          rgba(254,249,235,.85),
+          rgba(254,249,235,.28) 44%,
+          rgba(254,249,235,0) 74%);
 
       mix-blend-mode: screen;
-      opacity: .95;              /* <- 확실히 보이게 */
-      filter: blur(0.2px);
+      opacity: .62;
+      filter: blur(0.6px);
     }
 
     .btn:hover{ transform: translateY(-1px); }
@@ -442,7 +419,8 @@
           <div>
             <div class="wordmarkWrap">
               <h1 class="wordmark" aria-label="BrandGild">
-                 <span class="wmBrand">Brand</span><span class="wmGild" data-text="Gild">Gild</span>
+                <!-- BrandChild도 동일 구조로 쓰고 싶으면 아래 텍스트만 바꾸면 됨 -->
+                <span class="wmBrand" data-text="Brand">Brand</span><span class="wmGild" data-text="Gild">Gild</span>
               </h1>
             </div>
 
@@ -522,11 +500,11 @@
   </div>
 
   <script>
-    // (A) Global mouse -> CSS vars (works even when not hovering logo/button)
+    // (A) Global mouse -> CSS vars (0..1) (logo + button share the same engine)
     (function(){
       const root = document.documentElement;
       let raf = 0;
-      let targetX = 0.5, targetY = 0.35;
+      let targetX = 0.55, targetY = 0.45;
       let curX = targetX, curY = targetY;
 
       function onMove(e){
@@ -543,7 +521,9 @@
         curY += (targetY - curY) * 0.18;
         root.style.setProperty('--mx', curX.toFixed(4));
         root.style.setProperty('--my', curY.toFixed(4));
+
         raf = requestAnimationFrame(tick);
+
         // stop when close enough
         if (Math.abs(targetX-curX) < 0.0008 && Math.abs(targetY-curY) < 0.0008){
           cancelAnimationFrame(raf);
@@ -568,47 +548,6 @@
       );
       window.location.href = `mailto:emmaestro123@gmail.com?subject=${subject}&body=${body}`;
     });
-
-// ===== Gild shine follow mouse (always on) =====
-(() => {
-  const gild = document.querySelector('.wmGild');
-  if (!gild) {
-    console.warn('[BrandGild] .wmGild not found');
-    return;
-  }
-
-  let raf = 0;
-  let lastX = 0, lastY = 0;
-
-  const setPos = () => {
-    raf = 0;
-    const r = gild.getBoundingClientRect();
-    const x = ((lastX - r.left) / r.width) * 100;
-    const y = ((lastY - r.top) / r.height) * 100;
-
-    // 텍스트 안에서만 움직이는 느낌: clamp
-    const cx = Math.max(0, Math.min(100, x));
-    const cy = Math.max(0, Math.min(100, y));
-
-    gild.style.setProperty('--mx', cx + '%');
-    gild.style.setProperty('--my', cy + '%');
-  };
-
-  window.addEventListener('mousemove', (e) => {
-    lastX = e.clientX;
-    lastY = e.clientY;
-    if (!raf) raf = requestAnimationFrame(setPos);
-  }, { passive: true });
-
-  // 초기값 세팅(안 움직여도 기본 위치에 빛 보이게)
-  const rr = gild.getBoundingClientRect();
-  lastX = rr.left + rr.width * 0.55;
-  lastY = rr.top + rr.height * 0.45;
-  setPos();
-})();
-
-
-    
   </script>
 </body>
 </html>
