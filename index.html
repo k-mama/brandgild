@@ -147,18 +147,18 @@
 
     
     /* Gild: gold fill + micro brush + ALWAYS-on shimmer that follows mouse */
-    .wmGild{
-        position:relative;
-        display:inline-block;
+/*    .wmGild{
+/*        position:relative;
+/*        display:inline-block;
 
         /* 텍스트는 투명 + 배경클립으로만 보이게 */
-        color: transparent;
-        -webkit-text-fill-color: transparent;
+/*        color: transparent;
+/*        -webkit-text-fill-color: transparent;
 
         /* (본체 골드 + 미세 브러시 결) : 텍스트 내부만 */
-        background:
+/*        background:
           /* 미세 브러시 결(아주 약하게) */
-          repeating-linear-gradient(
+/*          repeating-linear-gradient(
             115deg,
             rgba(255,255,255,.11) 0px,
             rgba(255,255,255,.11) 1px,
@@ -166,15 +166,67 @@
             rgba(0,0,0,.06) 3px
           ),
           /* 골드 바탕(너가 지정한 #e1c773 중심) */
-          linear-gradient(90deg, #e5cf87 0%, #e1c773 55%, #d7b85a 100%);
+ /*         linear-gradient(90deg, #e5cf87 0%, #e1c773 55%, #d7b85a 100%);
         -webkit-background-clip:text;
         background-clip:text;
-
+*/
         /* 가독성 보정(지저분해지지 않게 최소) */
-        text-shadow: 0 1px 0 rgba(255,255,255,.40);
+/*        text-shadow: 0 1px 0 rgba(255,255,255,.40);
       }
+*/
 
+.wmGild{
+  position:relative;
+  display:inline-block;
 
+  /* (A) 더 진한 골드 베이스 */
+  --gBase:#d8b84e;          /* <- 여기 더 진하게 시작 */
+  --gDeep:#b88f1f;          /* 음영 */
+  --gLight:#f1de9a;         /* 하이라이트 */
+  --shine:#fcf4d9;          /* 요청한 연한 노랑 빛 */
+
+  /* 텍스트는 '골드 베이스'로만 보이게 */
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  background: linear-gradient(180deg, var(--gLight) 0%, var(--gBase) 55%, var(--gDeep) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  /* 살짝 또렷 */
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
+
+  /* 브러시 결(텍스트 내부에만) */
+  filter: saturate(1.05) contrast(1.03);
+}
+
+/* (B) '빛' 레이어: 텍스트 안에서만 움직임 */
+.wmGild::before{
+  content: attr(data-text);
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  /* 빛이 확실히 보이도록: 중앙이 강하고 가장자리로 자연스럽게 사라짐 */
+  background: radial-gradient(
+    180px 60px at var(--mx, 50%) var(--my, 50%),
+    rgba(252,244,217,.95) 0%,
+    rgba(252,244,217,.55) 35%,
+    rgba(252,244,217,0) 70%
+  );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  /* 너무 튀지 않게, 근데 확실히 보이게 */
+  opacity: .65;
+  mix-blend-mode: screen;
+}
+
+    
     /* micro metal brush + moving shine (clipped to text) */
     .wmGild::before{
       content:"";
@@ -408,7 +460,7 @@
           <div>
             <div class="wordmarkWrap">
               <h1 class="wordmark" aria-label="BrandGild">
-                <span class="wmBrand">Brand</span><span class="wmGild">Gild</span>
+                <span class="wmBrand">Brand</span><span class="wmGild" data-text="Gild">Gild</span>
               </h1>
             </div>
 
