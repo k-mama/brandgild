@@ -553,6 +553,47 @@
       );
       window.location.href = `mailto:emmaestro123@gmail.com?subject=${subject}&body=${body}`;
     });
+
+// ===== Gild shine follow mouse (always on) =====
+(() => {
+  const gild = document.querySelector('.wmGild');
+  if (!gild) {
+    console.warn('[BrandGild] .wmGild not found');
+    return;
+  }
+
+  let raf = 0;
+  let lastX = 0, lastY = 0;
+
+  const setPos = () => {
+    raf = 0;
+    const r = gild.getBoundingClientRect();
+    const x = ((lastX - r.left) / r.width) * 100;
+    const y = ((lastY - r.top) / r.height) * 100;
+
+    // 텍스트 안에서만 움직이는 느낌: clamp
+    const cx = Math.max(0, Math.min(100, x));
+    const cy = Math.max(0, Math.min(100, y));
+
+    gild.style.setProperty('--mx', cx + '%');
+    gild.style.setProperty('--my', cy + '%');
+  };
+
+  window.addEventListener('mousemove', (e) => {
+    lastX = e.clientX;
+    lastY = e.clientY;
+    if (!raf) raf = requestAnimationFrame(setPos);
+  }, { passive: true });
+
+  // 초기값 세팅(안 움직여도 기본 위치에 빛 보이게)
+  const rr = gild.getBoundingClientRect();
+  lastX = rr.left + rr.width * 0.55;
+  lastY = rr.top + rr.height * 0.45;
+  setPos();
+})();
+
+
+    
   </script>
 </body>
 </html>
