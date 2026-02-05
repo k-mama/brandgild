@@ -140,6 +140,12 @@
         0 -1px 0 rgba(0,0,0,.06);
     }
 
+.wordmark, .wmBrand, .wmGild{
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+    
     /* Gild: gold fill + micro brush + ALWAYS-on shimmer that follows mouse */
     .wmGild{
         position:relative;
@@ -226,7 +232,7 @@
     radial-gradient(
       220px 120px at var(--hx, 50%) var(--hy, 50%),   /* (1) 크기 ↑ */
       rgba(252,244,217,.50),                          /* (2) 중심 밝기 ↑   ~72*/
-      rgba(252,244,217,.22) 46%,                      /* (3) 중간 농도 */
+      rgba(252,244,217,.15) 46%,                      /* (3) 중간 농도  값이 올라가면 빛이 더 두껍고 넓게 퍼져보임 15 - 22 */
       rgba(252,244,217,0) 76%                         /* (3) 끝 지점 */
     );
 
